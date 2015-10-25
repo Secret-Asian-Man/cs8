@@ -1,0 +1,88 @@
+//4 things you must always have in a class: Default constructor, Copy constructor, equal operator, destructor.
+
+// ++it (increments the item, 1 step)
+// it++ (check the value of the item, then increment the value of the item, 2 steps)
+
+//std:pair<char,int> ('z',200) //z is the index, 200 is the value
+
+The difference between a class and a struc is that in a structure everything is public by default and a class is private by default. For class u need to use "public:" to have the same effect
+
+1const something& (2const pointer &blah) 3const 
+1:returned value cannot be changed
+2:promises original input will not be changed
+3: nothing can be changed inside the function
+
+
+DOUBLE LINK LIST
+insertBeforeHead() or insertMiddle()
+insertAfterTail()
+deleteNode()
+data = T();// T() fires the default constructor for that data type (T is a template)
+
+
+when inserting in the middle make 2 references before deleting one. Repeat for the other direction.
+how ever u write it out, u have to be able to read it back in again. (ostream operator<<(ostream &out, const T &output))
+
+---------------------------
+STACKS
+
+template<typename T>
+(T*)theData() // theData() is a void pointer, which u cannot dereference. Typecast (T*) gives us the type it's returning whether it be an int, double, string, etc...
+once you typecast (T*) a void pointer theData(), you can dereference it like so, *(T*) theData(); "(T*)" is typecasting. In "T*" the "*" means a pointer to T. *(T*) is dereferencing that typecast (ie: *(int*))
+
+a void pointer is a pointer that can point to anything, whether it be a char an int or a class. All pointers have the same size, but what it is pointing to does not.
+So to find out the bit size of the the data the void pointer is pointing to we have to dereference it. We dereference void pointers when you need to write or read from it.
+
+
+
+
+if(in>>data)//try to read the data, if the data cannot be found, skip it.
+	other.getData() = data;
+	
+	return in;
+	
+---------------------------
+
+
+
+-------------------------POINTERS TO FUNCTIONS---------------------
+The functions we know and love are actually function pointers that point to a function stored in memory
+
+functions pointers can only point to functions with the same signatures. IE [int *fptr (int, int)] can only point to [int function(int, int)]
+
+
+
+
+
+
+-------------------------------------------------------------------
+
+
+
+
+
+
+BINARY TREE
+2*N+1(left side), 2*N+2(right side)
+2^(N-1)-1(# of nodes at my depth)
+
+BINARY SEARCH TREE (BST)
+1.) Is a binary tree
+2.) has an called ordering lessthan
+3.) if a child is lessthan its parent, it is on the left branch of the parent
+4.) if it is not lessthan, it is on the right edge
+
+1.) Balanced 
+		AVL Tree
+			an AVL tree is a binary tree such that the difference in depth(depth is distance from me to the furthest node, counting myself) of the left 
+				
+			A binary tree such that the difference in depth if the left sub-tree and the right subtree is less than or equal to 1.
+
+	In Order
+		There are 3 "output" transverses
+			inorder
+				go leftDown as far as you can, then do a horizontal zigzag while print out the data inside.(see notes)
+			preorder
+				root is first (see notes)
+			postorder
+				root is last(see notes)
