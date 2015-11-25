@@ -120,8 +120,8 @@ heap<T>& heap<T>::operator<<(const T &data)
 
         lastChildEntered = 1;
 
-//        std::cout<<"DEBUG @@@@@@@@@@@@@@@@@@@@@@ "<<std::endl;
-//        AlexPrint(root,findDepth(lastChildEntered));
+        //        std::cout<<"DEBUG @@@@@@@@@@@@@@@@@@@@@@ "<<std::endl;
+        //        AlexPrint(root,findDepth(lastChildEntered));
 
     }
     else
@@ -148,8 +148,8 @@ heap<T>& heap<T>::operator<<(const T &data)
             reheapifyUp();
         }
 
-//        std::cout<<"DEBUG @@@@@@@@@@@@@@@@@@@@@@ "<<std::endl;
-//        AlexPrint(root,findDepth(lastChildEntered));
+        //        std::cout<<"DEBUG @@@@@@@@@@@@@@@@@@@@@@ "<<std::endl;
+        //        AlexPrint(root,findDepth(lastChildEntered));
 
 
     }
@@ -162,17 +162,15 @@ heap<T>& heap<T>::operator>>(T &data)
     //swap root with last element
     //delete last element
 
+    std::cout<<"DEBUG 3333333333333333333333 "<<std::endl;
 
     if (!root)
         throw EMPTY;
 
     data=root->data;
-            std::cout<<"DEBUG @@@@@@@@@@@@@@@@@@@@@@ "<<std::endl;
-            AlexPrint(root,findDepth(lastChildEntered));
-
 
     node<T>* lastChild=findLastChild(lastChildEntered);
-    std::cout<<"DEBUG lastChild->data: "<<lastChild->data<<std::endl;
+    std::cout<<"DEBUG my current last child is: "<<lastChild->data<<std::endl; doesn't seem to set the last root as the lastchild when only the root is left
 
     swap(root->data, lastChild->data); //swaps once only
 
@@ -181,7 +179,7 @@ heap<T>& heap<T>::operator>>(T &data)
 
     --lastChildEntered;
 
-    reheapifyDown();
+    //reheapifyDown();
 
     return *this;
 
@@ -331,7 +329,7 @@ template<typename T>
 node<T>* heap<T>::findLastChild(unsigned int childNumber)
 {
     unsigned int depth=findDepth(childNumber); //finds depth of the child
-
+    std::cout<<"DEBUG depth: "<<depth<<std::endl;
     if (!root)
         throw EMPTY;
 
@@ -373,16 +371,34 @@ template<typename T>
 void heap<T>::reheapifyDown() //for removing root
 {
     //reheapify down by swapping new root with the bigger of the 2 children until NULL.
+    //NOTE: In a heap, a LEFT child CAN exist without a brother, but a a RIGHT child CANNOT exist without a brother
 
-    //    node<T>* walker=root;
-    //    bool loopAgain;
+    node<T>* walker=root;
+    bool loopAgain;
 
-
-    //    while(walker && loopAgain)
-    //    {
-    ////        if ((walker->which[LEFT] && walker->which[RIGHT]));
-
-    //    }
+    while(walker && loopAgain)
+    {
+        if ((walker->which[LEFT] && walker->which[RIGHT])) //if both children exists
+        {
+            if ((walker->which[LEFT]->data - walker->which[RIGHT]->data) < 0) //if left child is smaller. If negative left is smaller, if positive right is smaller
+            {
+                swap(walker->data,walker->which[LEFT]->data);
+                walker=walker->which[LEFT];
+            }
+            else //right child must be bigger or equal
+            {
+                swap(walker->data,walker->which[RIGHT]->data);
+                walker=walker->which[RIGHT];
+            }
+        }
+        else if (walker->which[LEFT])//if only my left child exists. Don't need to check if only right child exists because this is a heap
+        {
+            swap(walker->data,walker->which[LEFT]->data);
+            walker=walker->which[LEFT];
+        }
+        else
+            loopAgain=false;
+    }
 
 
 
@@ -390,29 +406,29 @@ void heap<T>::reheapifyDown() //for removing root
 
 
     //MINNNNEEEE
-    node<T>* walker=root;
-    bool loopAgain;
+    //    node<T>* walker=root;
+    //    bool loopAgain;
 
 
-    while(walker && loopAgain)
-    {
+    //    while(walker && loopAgain)
+    //    {
 
-        if (walker->which[LEFT] && walker->data > walker->which[LEFT]->data)
-        {
-            swap(walker->data,walker->which[LEFT]->data);
+    //        if (walker->which[LEFT] && walker->data > walker->which[LEFT]->data)
+    //        {
+    //            swap(walker->data,walker->which[LEFT]->data);
 
-            walker=walker->which[LEFT];
-        }
-        else if(walker->which[RIGHT] && walker->data > walker->which[RIGHT]->data)
-        {
-            swap(walker->data,walker->which[RIGHT]->data);
+    //            walker=walker->which[LEFT];
+    //        }
+    //        else if(walker->which[RIGHT] && walker->data > walker->which[RIGHT]->data)
+    //        {
+    //            swap(walker->data,walker->which[RIGHT]->data);
 
-            walker=walker->which[RIGHT];
-        }
-        else
-            loopAgain=false;
+    //            walker=walker->which[RIGHT];
+    //        }
+    //        else
+    //            loopAgain=false;
 
-    }
+
 
 
 
@@ -448,14 +464,12 @@ void heap<T>::reheapifyUp() //for inserting
     //folowing the last element, check if the parent is greater, if it is, swap the two.
 
     node<T>*parent= findParent(lastChildEntered); //finds my parent
-    std::cout<<"DEBUG parent: "<<parent->data<<std::endl;
     unsigned int currentChild=lastChildEntered;
 
     //    unsigned int debugCount=0;
 
     while(parent && parent->which[currentChild%2] && (parent->which[currentChild%2]->data < parent->data)) //while I have a parent and I am bigger than my parent, change places
     {
-        std::cout<<"DEBUG SWAPPING@@@@@@@@: "<<std::endl;
         swap(parent->which[currentChild%2]->data,parent->data); //swap the data
 
         currentChild=currentChild/2; //my child walker, decrements

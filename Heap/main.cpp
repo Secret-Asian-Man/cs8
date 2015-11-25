@@ -36,7 +36,10 @@ int main()
         loadList(list);
         display("Unsorted", list);
         loadHeap(myHeap, list); //fails here
+        std::cout<<"DEBUG 11111111111111111111111111 "<<std::endl;
         reloadList(myHeap,list);
+        std::cout<<"DEBUG 99999999999999999999999999 "<<std::endl;
+
         display("Sorted", list);
     }
     catch(HEAP_ERRORS error)
@@ -64,9 +67,9 @@ void loadList(vector<int> &list)
     list.push_back(2);
     list.push_back(5);
     list.push_back(1);
-//    list.push_back(4);
-//    list.push_back(7);
-//    list.push_back(5);
+    list.push_back(4);
+    list.push_back(7);
+    list.push_back(5);
 
 
 
@@ -101,6 +104,7 @@ void loadHeap(heap<int> &myHeap,const vector<int> &list)
 void reloadList(heap<int> &myHeap,vector<int> &list)
 {
 
+   std::cout<<"DEBUG 222222222222222222222222 "<<std::endl;
     for(unsigned int i = 0; i < list.size(); ++i)
     {
         myHeap >> list[i];
