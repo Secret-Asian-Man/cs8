@@ -86,3 +86,26 @@ BINARY SEARCH TREE (BST)
 				root is first (see notes)
 			postorder
 				root is last(see notes)
+-------------------------------------------------------------------
+
+demorgans law
+if (!something && !somethingElse) is the same as if (!(something || somethingElse)) latter is far more efficient.
+
+
+
+
+-----------------------------------------------------
+HASH (A unique function such that a key will always give you the same index) ctime has a function to time the speed of your program.
+
+-use luhn algorithm
+-
+
+-first number/letter represents what kind of card it is (visa credit)
+-next 4 numbers tells us what bank
+-next 4 tells us what branch
+-last number before the ^ is the ceck sum/hash result, tells us if card is valid or not
+
+
+-------------------------------------------------------
+BIN SORT
+

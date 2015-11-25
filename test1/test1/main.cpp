@@ -3,8 +3,9 @@
 #include <string>
 using namespace std;
 
-double func(double x);
-double formula(double x);
+double Y(double x);
+double YPrime(double x);
+double newtonsMethod(double x);
 double pointSlope(double x1,double y1,double x2,double y2);
 double average(double x, double y);
 
@@ -20,54 +21,11 @@ int biggestOf2Numbers(int num1, int num2);
 
 
 
-double dummy1(int something1, int* something2)
-{
-    std::cout<<"1111111111111 : "<<std::endl;
-
-
-    return (double)something1/ *something2;
-}
-
-double dummy2(int something1, int* something2)
-{
-    std::cout<<"2222222222222 : "<<std::endl;
-
-    return (double)something1+*something2+0.5;
-
-}
-
-double dummy3(int something1, int* something2)
-{
-    std::cout<<"33333333333 : "<<std::endl;
-
-    return ((double)something1* *something2)+0.2;
-
-}
-
-double testMe(int something1, int* something2, funcPtr blah)
-{
-    return blah(something1, something2);
-}
-
 int main()
 {
+    float negNumber=-105;
 
-funcPtr test[3];
-test[ONE]=&dummy1;
-test[TWO]=&dummy2;
-test[THREE]=&dummy3;
-
-int tempInt=3;
-int* tempIntPtr=&tempInt;
-
-
-
-for (int i=0;i<3;i++)
-{
-
-    cout<<testMe(9,tempIntPtr,test[i])<<endl;
-
-}
+    std::cout<<"DEBUG negNumber%10: "<<(int)negNumber%10<<std::endl;
 
 
 
@@ -77,6 +35,26 @@ for (int i=0;i<3;i++)
 
 
 
+
+
+
+
+    //funcPtr test[3];
+    //test[ONE]=&dummy1;
+    //test[TWO]=&dummy2;
+    //test[THREE]=&dummy3;
+
+    //int tempInt=3;
+    //int* tempIntPtr=&tempInt;
+
+
+
+    //for (int i=0;i<3;i++)
+    //{
+
+    //    cout<<testMe(9,tempIntPtr,test[i])<<endl;
+
+    //}
 
 
     //    int userNumberBaseTen = 0;
@@ -142,31 +120,64 @@ for (int i=0;i<3;i++)
 
     //    double x=0;
 
-    //    while(true)
-    //    {
-    //        cout<<"input: ";
-    //        cin>>x;
+    //    std::cout<<"X: ";
+    //    cin>>x;
 
-    //        cout<<func(x)<<endl<<endl;
+    //    for (int i=0;i<50;i++)
+    //    {
+
+    //        x=newtonsMethod(x);
+    //        std::cout<<"DEBUG x: "<<x<<std::endl;
+
     //    }
+
 
     return 0;
 }
 
-double func(double x)
-{
-    return formula(x);
-}
 
 double average(double x, double y)
 {
     return (x+y)/(2);
 }
 
-double formula(double x)
+
+
+
+
+
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+double Y(double x)
 {
-    return (4-x)/(pow(x-5,2));
+    std::cout<<"DEBUG xxxxxxxxxx: "<<x<<std::endl;
+    double ans=pow(20,1/5);
+    std::cout<<"DEBUG ansansans: "<<ans<<std::endl;
+    return ans;
 }
+
+double YPrime(double x)
+{
+    return 1/(5*(pow(20,4/5)));
+}
+double newtonsMethod(double x)
+{
+    double y=Y(x);
+    double yprime=YPrime(x);
+
+    std::cout<<"DEBUG y: "<<y<<std::endl;
+    std::cout<<"DEBUG yprime: "<<yprime<<std::endl;
+    return x-(y/yprime);
+}
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+
+
+
+
+
+
+
 
 double pointSlope(double x1, double y1, double x2, double y2)
 {

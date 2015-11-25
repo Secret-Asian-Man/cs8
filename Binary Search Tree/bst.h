@@ -68,6 +68,7 @@ private:
     //Let's say we created 3 instances of this class. These 3 functions below are all DYNAMICALLY ALLOCATED to their OWN ADDRESS.
     //So we can't have a function pointer point to an address that won't stand still now can we.
     //Thus, we make the function static, meaning the functions below EACH WILL BE ASSIGNED A STATIC ADDRESS IN MEMORY.
+    //revisit: the first instance of the class created is the one who makes the address for the function.
     static void inOrder(ostream& out, node<T> *node);
     static void preOrder(ostream &out, node<T> *node);
     static void postOrder(ostream &out, node<T> *node);
@@ -150,7 +151,7 @@ bst<T>& bst<T>::operator<<(const T &data)
 template<typename U>
 ostream& operator<<(ostream& out, const bst<U> &tree)
 {
-    tree.fptrArray[tree.method](out,tree.root);
+    tree.fptrArray[tree.method] (out,tree.root);
     return out;
 }
 
