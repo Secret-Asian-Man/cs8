@@ -1,34 +1,49 @@
 #include <iostream>
-#include <cmath>
-#include <string>
+//#include <cmath>
+//#include <string>
+#include <vector>
 using namespace std;
 
-double Y(double x);
-double YPrime(double x);
-double newtonsMethod(double x);
-double pointSlope(double x1,double y1,double x2,double y2);
-double average(double x, double y);
+//double Y(double x);
+//double YPrime(double x);
+//double newtonsMethod(double x);
+//double pointSlope(double x1,double y1,double x2,double y2);
+//double average(double x, double y);
 
 
-typedef double (*funcPtr)(int, int*);
-enum MY_ENUM {ONE,TWO,THREE};
+//typedef double (*funcPtr)(int, int*);
+//enum MY_ENUM {ONE,TWO,THREE};
 
-int greatestCommonFactor(int num1, int num2);
-void largest2Smallest(int &num1, int &num2);
+//int greatestCommonFactor(int num1, int num2);
+//void largest2Smallest(int &num1, int &num2);
 
-int smallestOf2numbers(int num1, int num2);
-int biggestOf2Numbers(int num1, int num2);
+//int smallestOf2numbers(int num1, int num2);
+//int biggestOf2Numbers(int num1, int num2);
 
+//template<typename T>
+//void swap(T &x, T &y);
 
 
 int main()
 {
-    float negNumber=-105;
 
-    std::cout<<"DEBUG negNumber%10: "<<(int)negNumber%10<<std::endl;
+    vector<char> testVector;
 
+    testVector.push_back('1');
+    testVector.push_back('2');
 
+    for (unsigned int i=0;i<testVector.size();++i)
+    {
+        std::cout<<"DEBUG testVector : "<<testVector[i]<<std::endl;
+    }
 
+    std::cout<<"DEBUG swapping "<<std::endl;
+    swap(testVector[0],testVector[1]);
+
+    for (unsigned int i=0;i<testVector.size();++i)
+    {
+        std::cout<<"DEBUG testVector : "<<testVector[i]<<std::endl;
+    }
 
 
 
@@ -147,27 +162,27 @@ double average(double x, double y)
 
 
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-double Y(double x)
-{
-    std::cout<<"DEBUG xxxxxxxxxx: "<<x<<std::endl;
-    double ans=pow(20,1/5);
-    std::cout<<"DEBUG ansansans: "<<ans<<std::endl;
-    return ans;
-}
+//double Y(double x)
+//{
+//    std::cout<<"DEBUG xxxxxxxxxx: "<<x<<std::endl;
+//    double ans=pow(20,1/5);
+//    std::cout<<"DEBUG ansansans: "<<ans<<std::endl;
+//    return ans;
+//}
 
-double YPrime(double x)
-{
-    return 1/(5*(pow(20,4/5)));
-}
-double newtonsMethod(double x)
-{
-    double y=Y(x);
-    double yprime=YPrime(x);
+//double YPrime(double x)
+//{
+//    return 1/(5*(pow(20,4/5)));
+//}
+//double newtonsMethod(double x)
+//{
+//    double y=Y(x);
+//    double yprime=YPrime(x);
 
-    std::cout<<"DEBUG y: "<<y<<std::endl;
-    std::cout<<"DEBUG yprime: "<<yprime<<std::endl;
-    return x-(y/yprime);
-}
+//    std::cout<<"DEBUG y: "<<y<<std::endl;
+//    std::cout<<"DEBUG yprime: "<<yprime<<std::endl;
+//    return x-(y/yprime);
+//}
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 
@@ -179,10 +194,10 @@ double newtonsMethod(double x)
 
 
 
-double pointSlope(double x1, double y1, double x2, double y2)
-{
-    return (y2-y1)/(x2-x1);
-}
+//double pointSlope(double x1, double y1, double x2, double y2)
+//{
+//    return (y2-y1)/(x2-x1);
+//}
 
 /***********************************
  * Function: greatestCommonFactor
@@ -192,29 +207,29 @@ double pointSlope(double x1, double y1, double x2, double y2)
  * Summary:
  * Notes:
  * ***********************************/
-int greatestCommonFactor(int num1, int num2)
-{
-    if (num1!=0 && num2!=0) //accounts for 0 exception
-    {
-        num1=abs(num1);//accounts for negative number exception
-        num2=abs(num2);//accounts for negative number exception
+//int greatestCommonFactor(int num1, int num2)
+//{
+//    if (num1!=0 && num2!=0) //accounts for 0 exception
+//    {
+//        num1=abs(num1);//accounts for negative number exception
+//        num2=abs(num2);//accounts for negative number exception
 
-        largest2Smallest(num1,num2); //reorders numbers in descending order
+//        largest2Smallest(num1,num2); //reorders numbers in descending order
 
-        for (int i=num1;i>0;i--) //starting from the top number, checks 1 factor of num1 against all numbers of num2 for a match, then returns the match.
-        {
-            if (num1%i==0)
-            {
-                for (int j=1;j<=num2;j++)
-                {
-                    if (i== (double)num2/j)
-                        return i; //1 is always a factor
-                }
-            }
-        }
-    }
-    return 0;
-}
+//        for (int i=num1;i>0;i--) //starting from the top number, checks 1 factor of num1 against all numbers of num2 for a match, then returns the match.
+//        {
+//            if (num1%i==0)
+//            {
+//                for (int j=1;j<=num2;j++)
+//                {
+//                    if (i== (double)num2/j)
+//                        return i; //1 is always a factor
+//                }
+//            }
+//        }
+//    }
+//    return 0;
+//}
 
 /***********************************
  * Function: largest2Smallest
@@ -224,31 +239,39 @@ int greatestCommonFactor(int num1, int num2)
  * Summary:
  * Notes:
  * ***********************************/
-void largest2Smallest(int &num1, int &num2)
-{
-    int big=biggestOf2Numbers(num1,num2);
-    int small=smallestOf2numbers(num1,num2);
+//void largest2Smallest(int &num1, int &num2)
+//{
+//    int big=biggestOf2Numbers(num1,num2);
+//    int small=smallestOf2numbers(num1,num2);
 
-    num1=big;
-    num2=small;
-}
+//    num1=big;
+//    num2=small;
+//}
 
-int smallestOf2numbers(int num1, int num2)
-{
-    if (num1<num2)
-    {
-        return num1;
-    }
-    else
-        return num2;
-}
+//int smallestOf2numbers(int num1, int num2)
+//{
+//    if (num1<num2)
+//    {
+//        return num1;
+//    }
+//    else
+//        return num2;
+//}
 
-int biggestOf2Numbers(int num1, int num2)
-{
-    if (num1>num2)
-    {
-        return num1;
-    }
-    else
-        return num2;
-}
+//int biggestOf2Numbers(int num1, int num2)
+//{
+//    if (num1>num2)
+//    {
+//        return num1;
+//    }
+//    else
+//        return num2;
+//}
+
+//template<typename T>
+//void swap(T &x, T &y)
+//{
+//    T temp = x;
+//    x = y;
+//    y = temp;
+//}
