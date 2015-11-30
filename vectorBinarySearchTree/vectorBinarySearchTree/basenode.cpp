@@ -2,11 +2,13 @@
 
 base_node::base_node()
 {
+    count = 0;
     data = myChild[LEFT] = myChild[RIGHT] = NULL;
 }
 
 base_node::~base_node()
 {
+    count = 0;
     data = myChild[LEFT] = myChild[RIGHT] = NULL;
 }
 
@@ -37,29 +39,40 @@ int base_node::getCount()
     return count;
 }
 
-void base_node::operator--(int)
+int base_node::getCount() const
+{
+    return count;
+}
+
+base_node& base_node::operator--(int)
 {
     count--;
+    return *this;
 }
 
-void base_node::operator++(int)
+base_node& base_node::operator++(int)
 {
+    base_node temp = *this;
     count++;
+    return temp;
 }
 
-void base_node::operator--()
+base_node& base_node::operator--()
 {
     count--;
+    return *this;
 }
 
-void base_node::operator++()
+base_node& base_node::operator++()
 {
     count++;
+    return *this;
 }
 
-void base_node::operator+=(int x)
+base_node& base_node::operator+=(int x)
 {
     count += x;
+    return *this;
 }
 
 void base_node::setCount(unsigned int x)
@@ -67,7 +80,8 @@ void base_node::setCount(unsigned int x)
     count = x;
 }
 
-void base_node::operator-=(int x)
+base_node& base_node::operator-=(int x)
 {
     count -= x;
+    return *this;
 }

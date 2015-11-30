@@ -33,7 +33,6 @@ public:
 
     void insert(const T &data);
     T remove();
-    //        void displayTree(node<T>* r, int level, int width);
 
 private:
     std::vector<T> list;
@@ -93,13 +92,6 @@ vectorHeap<T>& vectorHeap<T>::operator=(const vectorHeap<T> &other)
 template<typename T>
 vectorHeap<T>& vectorHeap<T>::operator<<(const T &data)
 {
-
-    //    std::cout<<"DEBUG OMFG WTH "<<std::endl;
-    //    for (unsigned int i=0;i<list.size();++i)
-    //    {
-    //        std::cout<<list[i]<<"_";
-    //    }
-    //    std::cout<<std::endl<<"DEBUG OMFG WTF "<<std::endl;
 
     if(list.empty())
     {
@@ -226,10 +218,6 @@ void vectorHeap<T>::reheapifyDown() //for removing root
     //reheapify down by swapping new root with the bigger of the 2 children until NULL.
     //NOTE: In a heap, a LEFT child CAN exist without a brother, but a a RIGHT child CANNOT exist without a brother
 
-
-
-
-
         long int walker=0;
         bool loopAgain=true;
 
@@ -265,44 +253,6 @@ void vectorHeap<T>::reheapifyDown() //for removing root
                 loopAgain=false;
             }
         }
-
-
-
-
-
-
-
-
-
-//    long int walker=0;
-//    bool loopAgain;
-
-//    while(walker < lastChildEntered && loopAgain)
-//    {
-//        if(2*walker+1 < lastChildEntered && 2*walker+2 < lastChildEntered)//if there is left AND right child //OPTIMIZABLE
-//        {
-//            if(list[2*walker+1] - list[2*walker+2] < 0)//if left child is smaller. If negative left is smaller, if positive right is smaller
-//            {
-//                swap(list[walker],list[2*walker+1]);
-//                walker=2*walker+1;
-//            }
-//            else//right child must be bigger or equal
-//            {
-//                swap(list[walker],list[2*walker+2]);
-//                walker=2*walker+2;
-//            }
-//        }
-//        else if(2*walker+1 < lastChildEntered )
-//        {
-//            swap(list[walker],list[2*walker+1]);
-//            walker=2*walker+1;
-//        }
-//        else
-//        {
-//            loopAgain=false;
-//        }
-//    }
-
 }
 
 template<typename T>

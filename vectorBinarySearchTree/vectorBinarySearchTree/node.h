@@ -109,7 +109,7 @@ template<typename Z>
 ostream& operator<<(ostream& out, const node<Z>& other)
 {
     if(out == cout)
-        out<<other.readData();
+        out<<other.readData()<<":"<<other.getCount()<<" ";
     else
         out<<other.readData()<<endl;
     return out;

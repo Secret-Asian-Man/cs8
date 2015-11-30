@@ -1,20 +1,18 @@
-//How children find parents: [(childIndex-1)/2]
-//How parent finds LEFT child [2 * parentIndex + 1]
-//How parent finds RIGHT child [2 * parentIndex + 2]
-
-
-
 #ifndef BST_H
 #define BST_H
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
-#include "node.h"
+#include <algorithm>
+#include <cmath>
+#include <vector>
+//#include "node.h"
 
 using std::cin;
 using std::cout;
+using std::vector;
 
-enum TRAVERSE {PRE_ORDER,IN_ORDER, POST_ORDER, REVERSE_IN_ORDER};
+enum TRAVERSE {PRE_ORDER,IN_ORDER, POST_ORDER};
 
 
 template<typename T>
@@ -22,22 +20,24 @@ class bst
 {
 public:
     typedef void (bst<T>::*fptr)(ostream&, node<T>* ) const;
-    bst(TRAVERSE how = IN_ORDER);
-    ~bst();
-    bst(const bst<T> &other);
-    bst<T>& operator=(const bst<T> &other);
 
-    void insert(const T &data, int count = 1);
-    bool empty() const;
-    void setTraversal(TRAVERSE how);
+
+    //constructors
+    bst(TRAVERSE how = IN_ORDER);
+    bst(const bst<T> &other);
+
+    //destructor
+    ~bst();
+
+    //Accessors
     TRAVERSE showTraversal() const;
-    bool search(const T &data);
+
+    //Mutators
+    void setTraversal(TRAVERSE how);
+
+    //Operators
+    bst<T>& operator=(const bst<T> &other);
     bst<T>& operator<<(const T &data);
-    bool remove(const T &data);
-    bool balanced();
-    void rebalance();
-    unsigned int totalDataItems();
-    void clear();
 
     template<typename U>
     friend
@@ -47,11 +47,28 @@ public:
     friend
     istream& operator>>(istream& in, bst<U> &tree);
 
+    //Functions
+    bool remove(const T &data);
+    void insert(const T &data, int count = 1);
+    bool empty() const;
+    bool search(const T &data);
+    bool balanced();
+    void rebalance(node<T>* &parent);
+    unsigned int totalDataItems();
+    void clear();
+    int depth();
+
+
 private:
-    node<T> *root;
-    fptr howToTraverse[4];
+
+    //Private member variables
+    vector<T> tree;
+    fptr howToTraverse[3];
     TRAVERSE method;
 
+
+    //Private functions
+    node<T>* locate(const T &data, node<T> *node);
     void copy(const node<T> *what);
     void insert(node<T> *&newNode, node<T> *where);
     void nukem(node<T>* &theNode);
@@ -59,7 +76,17 @@ private:
     void inOrder(ostream& out, node<T> *node) const;
     void preOrder(ostream &out, node<T> *node)const ;
     void postOrder(ostream &out, node<T> *node) const;
-    void reverseInOrder(ostream& out, node<T> *node) const;
+    node<T>* findParent(node<T>* start, const T &data, CHILD &which) const;
+    node<T>* findRightMostChild( node<T> *currentNode) const;
+    node<T>* findLeftMostChild( node<T> *currentNode) const;
+    unsigned int totalDataItems(node<T>* top);
+    int depth(node<T> *subTreeRoot);
+    bool balanced(node<T> *subTreeRoot);
+    node<T> *rotateWithLeftChild(node<T>* target);
+    node<T> *rotateWithRightChild(node<T> *target);
+    node<T>* doubleRotateWithLeftChild(node<T> *k3);
+    node<T>* doubleRotateWithRightChild(node<T> *k1);
+    void AlexPrint(node<T>* root, int depth) const;
 
 };
 
@@ -72,7 +99,6 @@ bst<T>::bst(TRAVERSE how)
     howToTraverse[IN_ORDER] = &bst<T>::inOrder;
     howToTraverse[PRE_ORDER] = &bst<T>::preOrder;
     howToTraverse[POST_ORDER] = &bst<T>::postOrder;
-    howToTraverse[REVERSE_IN_ORDER] = &bst<T>::reverseInOrder;
 }
 
 template<typename T>
@@ -145,8 +171,11 @@ ostream& operator<<(ostream& out, const bst<Z> &tree)
         out<<"Emtpy tree!"<<endl;
         return out;
     }
-    typename bst<Z>::fptr whatToDo = tree.howToTraverse[tree.method];
-    (tree.*whatToDo)(out,tree.root);
+//    typename bst<Z>::fptr whatToDo = tree.howToTraverse[tree.method];
+//    (tree.*whatToDo)(out,tree.root);
+
+    tree.AlexPrint(tree.root, 0);
+
 
     //Let's say there are 100 trees all using the same 4 functions
     // "tree.*whatTodo" tells us which data from which tree we are about to use in the function.
@@ -208,57 +237,65 @@ void bst<T>::insert(node<T>* &newNode, node<T> *where)
         //--------------------------------------------
 
     }
+
+    rebalance(newNode);
 }
 
-template<typename T>
-void bst<T>::nukem(node<T>* &theNode) //PROBLEM HEREEEEEEEEEEEEE@@@@@@@@@@@@#@#@############@#@#@
-{
-    if(theNode->child(LEFT))
-        nukem(theNode->child(LEFT));
-    if(theNode->child(RIGHT))
-        nukem(theNode->child(RIGHT));
 
-    theNode = NULL;
-    delete theNode;
+template<typename T>
+void bst<T>::nukem(node<T>* &theNode)
+{
+    if (theNode)
+    {
+        if(theNode->child(LEFT))
+            nukem(theNode->child(LEFT));
+        if(theNode->child(RIGHT))
+            nukem(theNode->child(RIGHT));
+        delete theNode;
+        theNode = NULL;
+    }
+
 }
 
 template<typename T>
 bool bst<T>::find(const T &data, node<T> *node)
 {
+    if (!root)
+        return false;
 
-    //want to once one of the function calls returns true, get out of all the recursive functions
-    if(data == node->getData())
+    if (data==node->readData())
         return true;
 
-    else if(data < node->getData())
-        if (find(data,node->child(LEFT)))
-        {
-            return true;
-        }
-        else
-            if (find(data,node->child(RIGHT)))
-            {
-                return true;
-            }
+    if (node->child(LEFT) && data < node->readData())
+        return find(data, node->child(LEFT));
+    else if (node->child(RIGHT))
+        return find(data, node->child(RIGHT));
 
     return false;
 }
 
+template<typename T>
+int bst<T>::depth()
+{
+    return depth(root);
+}
+
+template<typename T>
+int bst<T>::depth(node<T> *subTreeRoot)
+{
+    return subTreeRoot ? 1 + (depth(subTreeRoot->child(LEFT)), depth(subTreeRoot->child(RIGHT)))
+                       : 0;
+}
 
 template<typename T>
 void bst<T>::inOrder(ostream& out, node<T> *node) const
 {
-    if(node) //if the node exists
+    if(node)
     {
-        if(node->child(LEFT) ) //keeps doing the left side, unti    l there is no more left side, then comes back and continues on with this function
+        if(node->child(LEFT) )
             inOrder(out, node->child(LEFT));
-
-        //-------processing--------- //order significantly matters here
-        out<<*node<<":"<<node->getCount()<<" ";//our processing, this is the most important part that dictates what order our tree will take.
-
-        //--------------------------
-
-        if(node->child(RIGHT))//keeps doing the right side, until there is no more right side, then comes back and continues on with this function
+        out<<*node<<" ";
+        if(node->child(RIGHT))
             inOrder(out, node->child(RIGHT));
     }
 }
@@ -268,7 +305,7 @@ void bst<T>::preOrder(ostream &out, node<T> *node) const
 {
     if(node)
     {
-        out<<*node<<":"<<node->getCount()<<" ";//our processing, this is the most important part that dictates what order our tree will take.
+        out<<*node<<" ";
         if(node->child(LEFT))
             preOrder(out, node->child(LEFT));
         if(node->child(RIGHT))
@@ -285,62 +322,325 @@ void bst<T>::postOrder(ostream &out, node<T> *node) const
             postOrder(out, node->child(LEFT));
         if(node->child(RIGHT))
             postOrder(out, node->child(RIGHT));
-        out<<*node<<":"<<node->getCount()<<" ";//our processing, this is the most important part that dictates what order our tree will take.
+        out<<*node<<" ";
     }
 }
 
 template<typename T>
-void bst<T>::reverseInOrder(ostream& out, node<T> *node) const
+node<T>* bst<T>::locate(const T &data, node<T> *node)
 {
-    if(node) //if the node exists
-    {
-        if(node->child(RIGHT))//keeps doing the right side, until there is no more right side, then comes back and continues on with this function
-            inOrder(out, node->child(RIGHT));
+    if (!root)
+        return NULL;
 
-        //-------processing--------- //order significantly matters here
-        out<<*node<<":"<<node->getCount()<<" ";//our processing, this is the most important part that dictates what order our tree will take.
-        //--------------------------
-        if(node->child(LEFT) ) //keeps doing the left side, until there is no more left side, then comes back and continues on with this function
-            inOrder(out, node->child(LEFT));
+    if (data==node->readData())
+        return node;
 
-    }
+    if (node->child(LEFT) && data < node->readData())
+        return locate(data, node->child(LEFT));
+    else if (node->child(RIGHT))
+        return locate(data, node->child(RIGHT));
+
 }
+
 
 template<typename T>
 bool bst<T>::remove(const T &data)
 {
-    //GET READY TO SWAP WITH RIGHT CHILD
-    //  make a fakeParent to be root's parent
-    //  keep track of me left side
-    //  keep track of parent
+    if(!root)// if tree is completely empty
+        return false; //get out, don't do anything.
 
-    //PROMOTE RIGHT CHILD
-    //  set parent's left to my right
-    //  find parent's LAST left child
-    //  set parent's last left child's left to MY left side
+    if (!locate(data,root))
+        return false;
 
-    //DELETE MYSELF
+    CHILD which;
+
+    node<T> fakeParent;
+    fakeParent.child(LEFT) = fakeParent.child(RIGHT) = root;//fake parent
+
+    node<T>*parent = findParent(&fakeParent,data,which);
+    if(!parent)
+        return false;
+
+    node<T>* target = parent->child(which);
+
+    if((--(*target)).getCount() < 1 ) //decrement the count and if the count becomes 0
+    {
+        /*
+                      How am I going to be deleting this node:
+
+                        1. The node to be deleted has no children. So, just make
+                           the appropriate link to the node to be deleted point to NULL.
+
+                        2. Node to be deleted is the left child of the parent
+                            a. The node to be deleted does not have a right child, so
+                               connect the left child to its grandparent and end
+                            b. If the node to be deleted does have a right child, attach the
+                               right child to the left side of its grandparent, and then
+                               attach the left child to the left-most child of the right child
+                               of the node to be deleted.
+
+                        3. Node to be deleted is the right child of the parent
+                            a. The node to be deleted does not have a right child.
+                               Then we just promote the left child.
+                            b. If the node to be deleted does have a right child, promote it
+                               and then find the left most child of the right child and attach
+                               the left subtree to the left-most child.
+                     */
+        /*
+                      The following if, which would be done by a programmer,
+                      can be made more efficient by de Morgan's Laws to the
+                      if we are using
+
+                        if(!target->child(left) && !target->child(right))
+                   */
+        if(!(target->child(LEFT) || target->child(RIGHT)))//The node to be deleted has no children.
+            parent->child(which) = NULL;//So, just make the appropriate link to the node to be deleted point to NULL.
+        else
+            if(target->child(RIGHT))
+            {
+                parent->child(which)= target->child(RIGHT);
+                node<T> *leftMost = findLeftMostChild(target->child(RIGHT));
+                leftMost->child(LEFT) = target->child(LEFT);
+            }
+            else
+            {
+
+                parent->child(which) = target->child(LEFT);
+                node<T> *rightMost = findRightMostChild(target->child(LEFT));
+                rightMost->child(RIGHT) = target->child(RIGHT);
+            }
+
+        delete target;
+    }
+
+    if(&fakeParent == parent)
+        root = parent->child(which);
+
+    return true;
 
 }
 
 template<typename T>
 bool bst<T>::balanced()
 {
-
+    return balanced(root);
 }
 
 template<typename T>
-void bst<T>::rebalance()
+bool bst<T>::balanced(node<T> *subTreeRoot)
 {
+    return  !root ? true : abs(depth(subTreeRoot->child(LEFT)) - depth(subTreeRoot->child(RIGHT))) <= 1;
+}
 
+template<typename T>
+void bst<T>::rebalance(node<T>* &parent)
+{
+    if(balanced(parent)) //if tree is already balanced return without extra work
+        return;
+
+    int leftChildDepth = depth(parent->child(LEFT));
+    int rightChildDepth = depth(parent->child(RIGHT));
+
+    bool whichChild = rightChildDepth < leftChildDepth; //at this point will be off balanced.
+    CHILD child[] = {LEFT,RIGHT};//keeps track of which child is bigger
+
+    node<T>* grandparent = findParent(root, parent->getData(), child[whichChild]);
+    if(whichChild)
+        //this means the left side has a larger depth
+        //this means a RIGHT rotaion
+        if(parent->child(LEFT)->child(LEFT))
+            rotateWithLeftChild(grandparent);
+        else
+            doubleRotateWithLeftChild(grandparent);
+    else
+        if(parent->child(RIGHT)->child(RIGHT))
+            rotateWithRightChild(grandparent);
+        else
+            doubleRotateWithRightChild(grandparent);
+}
+
+/* Rotate binary tree node with left child */
+template<typename T>
+node<T>* bst<T>::rotateWithLeftChild(node<T>* target)
+{
+    //https://www.youtube.com/watch?v=uZueM4b9qA0
+    //need parent to hold the rotation together
+
+    CHILD which;
+    node<T>* parent=findParent(root,target->readData(),which);
+
+    if (!parent) //if I have no parents make a fake parent
+    {
+        parent=new node<T>;
+        parent->child(LEFT)=target;
+        parent->child(RIGHT)=target;
+    }
+
+    node<T>* targetsRight=target->child(RIGHT);
+    node<T>* targetsRightsLeft=targetsRight->child(LEFT);
+    node<T>*targetsRightsRight=targetsRight->child(RIGHT);
+
+    parent->child(which)=targetsRight;
+    targetsRight->child(LEFT)=target;
+    target->child(RIGHT)=targetsRightsLeft;
+    targetsRight->child(RIGHT)=targetsRightsRight;
+
+    return target;
+
+
+
+    //    node<T> *me = k2->child(LEFT);
+    //    k2->child(LEFT) = me->child(RIGHT);
+    //    me->child(RIGHT) = k2;
+    //    return me;
+}
+
+/* Rotate binary tree node with right child */
+template<typename T>
+node<T>* bst<T>::rotateWithRightChild(node<T> *target)
+{
+    CHILD which;
+    node<T>* parent=findParent(root,target->readData(),which);
+
+    if (!parent) //if I have no parents make a fake parent
+    {
+        parent=new node<T>;
+        parent->child(LEFT)=target;
+        parent->child(RIGHT)=target;
+    }
+
+    node<T>* targetsLeft=target->child(LEFT);
+    node<T>* targetsLeftsRight=targetsLeft->child(RIGHT);
+    node<T>*targetsLeftsLeft=targetsLeft->child(LEFT);
+
+    parent->child(which)=targetsLeft;
+    targetsLeft->child(RIGHT)=target;
+    target->child(LEFT)=targetsLeftsRight;
+    targetsLeft->child(LEFT)=targetsLeftsLeft;
+
+    return target;
+
+
+
+
+
+    //    node<T> *k2 = k1->child(RIGHT);
+    //    k1->child(RIGHT) = k2->child(LEFT);
+    //    k2->child(LEFT) = k1;
+    //    return k2;
+}
+
+/*
+ * Double rotate binary tree node: first left child
+ * with its right child; then node k3 with new left child
+ */
+template<typename T>
+node<T> *bst<T>::doubleRotateWithLeftChild(node<T> *k3)
+{
+    k3->child(LEFT) = rotateWithRightChild(k3->child(LEFT));
+    return rotateWithLeftChild(k3);
+}
+
+/*
+ * Double rotate binary tree node: first right child
+ * with its left child; then node k1 with new right child
+ */
+template<typename T>
+node<T>* bst<T>::doubleRotateWithRightChild(node<T> *k1)
+{
+    k1->child(RIGHT) = rotateWithLeftChild(k1->child(RIGHT));
+    return rotateWithRightChild(k1);
+}
+
+template<typename T>
+void bst<T>::AlexPrint(node<T>* root, int depth) const
+{
+    if (root)
+    {
+        AlexPrint(root->child(LEFT), depth + 1);
+        for (int i = 0; i < 2*depth; i++) cout << " ";
+        cout << depth<<":";
+        cout << *root << endl;
+        AlexPrint(root->child(RIGHT), depth + 1);
+    }
 }
 
 template<typename T>
 unsigned int bst<T>::totalDataItems()
 {
-
+    return totalDataItems(root);
 }
 
+template<typename T>
+unsigned int bst<T>::totalDataItems(node<T>*currentNode)
+{
+    return currentNode ? currentNode->getCount()
+                         +
+                         totalDataItems(currentNode->child(LEFT))
+                         +
+                         totalDataItems(currentNode->child(RIGHT))
+                       : 0;
+}
+
+template<typename T>
+node<T>* bst<T>::findParent(node<T>* start, const T &data, CHILD &which) const
+{
+
+    node<T> *top = start;
+    bool cont = true;
+
+
+    if (top && data == top->readData()) //if I'm at the root then I have no parents return NULL
+
+        return NULL;
+
+
+    while(top && cont)
+
+    {
+
+        if(top->child(LEFT)&&top->child(LEFT)->readData() == data) //I found the data on the left side
+
+        {
+            which = LEFT;
+            cont = false;
+        }
+
+        else if(top->child(RIGHT)&&top->child(RIGHT)->readData() == data)//I found the data on the right side
+
+        {
+            which = RIGHT;
+            cont = false;
+        }
+
+        if(cont && top->child(RIGHT) && data > top->readData()) //dereferencing a NULL here(fixed) //cont stops the incrementing once found
+            top = top->child(RIGHT); //increment to my left side
+
+
+        else if(cont && top->child(LEFT))//cont stops the incrementing once found
+            top = top->child(LEFT);//increment to my right side //dereferencing a NULL here(fixed)
+
+    }
+
+    return top;
+}
+
+template<typename T>
+node<T>* bst<T>::findRightMostChild(node<T> *currentNode) const
+{
+    node<T>* top = currentNode;
+    while(top->child(RIGHT))
+        top = top->child(RIGHT);
+    return top;
+}
+
+template<typename T>
+node<T>* bst<T>::findLeftMostChild(node<T> *currentNode) const
+{
+    node<T>* top = currentNode;
+    while(top->child(LEFT) && (top = top->child(LEFT)));
+    return top;
+}
 
 template<typename T>
 void bst<T>::clear()

@@ -19,12 +19,13 @@ class base_node
         base_node*& child(CHILD which);
         base_node* theNode();
         int getCount();
-        void operator--();
-        void operator++();
-        void operator--(int);
-        void operator++(int);
-        void operator+=(int x);\
-        void operator-=(int x);
+        int getCount() const;
+        base_node& operator--();
+        base_node& operator++();
+        base_node& operator--(int);
+        base_node& operator++(int);
+        base_node& operator+=(int x);\
+        base_node& operator-=(int x);
 
         void setCount(unsigned int x);
 

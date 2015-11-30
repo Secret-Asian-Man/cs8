@@ -1,7 +1,9 @@
 #include <iostream>
 //#include <cmath>
 //#include <string>
-#include <vector>
+#include <fstream>
+
+
 using namespace std;
 
 //double Y(double x);
@@ -23,33 +25,93 @@ using namespace std;
 //template<typename T>
 //void swap(T &x, T &y);
 
+enum ERRORS{fileFailedToOpen};
 
 int main()
 {
+    //===================================================================
+    //OUTPUT TO FILE
 
-    vector<char> testVector;
-
-    testVector.push_back('1');
-    testVector.push_back('2');
-
-    for (unsigned int i=0;i<testVector.size();++i)
+    try
     {
-        std::cout<<"DEBUG testVector : "<<testVector[i]<<std::endl;
+
+
+
+
+
+        ofstream out;
+        out.open("../resources/myOutput.txt");
+
+        if (!out.is_open())
+            throw fileFailedToOpen;
+
+        out<<"Thou bootless full-gorged strumpet. \n";
+        out<<"Thou vain pox-marked hedge-pig. \n";
+        out<<"Thou puny full-gorged joithead. \n";
+        out<<"thou delicate best-tempered wafer-cake. \n";
+        out<<"thou delicate tiger-booted cukoo-bud. \n";
+        out<<"thou fruitful tender-hearted true-penny. \n";
+        out<<"Thou bootless tickle-brained flax-wench. \n";
+
+        out.close();
+
     }
-
-    std::cout<<"DEBUG swapping "<<std::endl;
-    swap(testVector[0],testVector[1]);
-
-    for (unsigned int i=0;i<testVector.size();++i)
+    catch(ERRORS error)
     {
-        std::cout<<"DEBUG testVector : "<<testVector[i]<<std::endl;
+        switch (error)
+        {
+
+        case fileFailedToOpen:
+            std::cout<<"ERROR fileFailedToOpen "<<std::endl;
+            break;
+
+        default:
+            std::cout<<"Unknown Error... "<<std::endl;
+            break;
+        }
     }
+    //===================================================================
 
 
+////===================================================================
+//    //READ FILE
+//    try
+//    {
+//        string inputString;
 
+//        ifstream inputFile;
+//        inputFile.open("../resources/readMe.txt");
 
+//        if (!inputFile.is_open())
+//            throw fileFailedToOpen;
 
+//        while(!inputFile.eof())
+//        {
+//            char temp;
+//            inputFile.get(temp);
+//            inputString += temp;
+//        }
+//        inputFile.close();
 
+//        std::cout<<"DEBUG inputString: "<<inputString<<std::endl;
+
+//    }
+//    catch(ERRORS error)
+//    {
+//        switch (error)
+//        {
+
+//        case fileFailedToOpen:
+//            std::cout<<"ERROR File Failed To Open "<<std::endl;
+//            break;
+
+//        default:
+//            std::cout<<"Unknown Error... "<<std::endl;
+//            break;
+//        }
+//    }
+
+////===================================================================
 
 
 
