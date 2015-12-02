@@ -19,28 +19,47 @@ template<typename T>
 class vectorHeap
 {
 public:
-    typedef bool (vectorHeap<T>::*fptr)(const T &x,const  T &y);
+     typedef bool (vectorHeap<T>::*fptr)(const T &x,const  T &y);
 
+    //Constructors
     vectorHeap(HEAP_TYPE t = LESSTHAN);
-    ~vectorHeap();
     vectorHeap(const vectorHeap<T> &other);
+
+
+    //Destructor
+    ~vectorHeap();
+
+
+    //Accessors
+    long int getCount();
+
+
+    //Mutators
+
+
+    //Operators
     vectorHeap<T>& operator=(const vectorHeap<T> &other);
     vectorHeap<T>& operator<<(const T &data);
     vectorHeap<T>& operator>>(T &data);
+
+
+    //Functions
     void clear();
     void AlexPrint(long int root, long int depth) const;
-
-
     void insert(const T &data);
     T remove();
+    void printAll();
+
 
 private:
+
+    //Private Member Variables
     std::vector<T> list;
     long int lastChildEntered;
     HEAP_TYPE heapType;
     fptr heapSortingMethod[2];
 
-
+    //Private Functions
     void copy(const vectorHeap<T> &otherHeap);
     bool lessThan(const T &x,const  T &y);
     bool greaterThan(const T &x,const  T &y);
@@ -52,6 +71,13 @@ private:
     void reheapifyUp();
     void swap(T &x, T &y);
     long int findDepth(long int childIdNumber);
+
+
+
+
+
+
+
 
 };
 
@@ -154,6 +180,12 @@ void vectorHeap<T>::AlexPrint(long int root, long int depth) const
 }
 
 template<typename T>
+long int vectorHeap<T>::getCount()
+{
+    return lastChildEntered;
+}
+
+template<typename T>
 void vectorHeap<T>::insert(const T &data) //should work
 {
     if(list.empty())
@@ -190,6 +222,16 @@ T vectorHeap<T>::remove() //should work
 }
 
 template<typename T>
+void vectorHeap<T>::printAll()
+{
+    //the act of printing destroys the heap
+    //out or cout?
+
+    in the tree of words, I want to run the print function of each.
+    I also want to be able to save the print to a file
+}
+
+template<typename T>
 void vectorHeap<T>::copy(const vectorHeap<T> &otherHeap)
 {
     list.clear();
@@ -218,41 +260,41 @@ void vectorHeap<T>::reheapifyDown() //for removing root
     //reheapify down by swapping new root with the bigger of the 2 children until NULL.
     //NOTE: In a heap, a LEFT child CAN exist without a brother, but a a RIGHT child CANNOT exist without a brother
 
-        long int walker=0;
-        bool loopAgain=true;
+    long int walker=0;
+    bool loopAgain=true;
 
-        while(walker < lastChildEntered-1 && loopAgain)
+    while(walker < lastChildEntered-1 && loopAgain)
+    {
+        std::cout<<"=========== "<<std::endl;
+        for (unsigned int i=0;i<list.size();++i)
         {
-            std::cout<<"=========== "<<std::endl;
-            for (unsigned int i=0;i<list.size();++i)
-            {
-                std::cout<<list[i]<<"_";
-            }
-            std::cout<<std::endl<<"^^^^^^^^^^^ "<<std::endl;
+            std::cout<<list[i]<<"_";
+        }
+        std::cout<<std::endl<<"^^^^^^^^^^^ "<<std::endl;
 
-            if(2*walker+1 < lastChildEntered-1 && 2*walker+2 <= lastChildEntered-1)//if there is left AND right child //OPTIMIZABLE
-            {
-                if(list[2*walker+1] < list[2*walker+2])//if left child is smaller. If negative left is smaller, if positive right is smaller
-                {
-                    swap(list[walker],list[2*walker+1]);
-                    walker=2*walker+1;
-                }
-                else//right child must be bigger or equal
-                {
-                    swap(list[walker],list[2*walker+2]);
-                    walker=2*walker+2;
-                }
-            }
-            else if(2*walker+1 < lastChildEntered-1)
+        if(2*walker+1 < lastChildEntered-1 && 2*walker+2 <= lastChildEntered-1)//if there is left AND right child //OPTIMIZABLE
+        {
+            if(list[2*walker+1] < list[2*walker+2])//if left child is smaller. If negative left is smaller, if positive right is smaller
             {
                 swap(list[walker],list[2*walker+1]);
                 walker=2*walker+1;
             }
-            else
+            else//right child must be bigger or equal
             {
-                loopAgain=false;
+                swap(list[walker],list[2*walker+2]);
+                walker=2*walker+2;
             }
         }
+        else if(2*walker+1 < lastChildEntered-1)
+        {
+            swap(list[walker],list[2*walker+1]);
+            walker=2*walker+1;
+        }
+        else
+        {
+            loopAgain=false;
+        }
+    }
 }
 
 template<typename T>
@@ -262,15 +304,6 @@ void vectorHeap<T>::reheapifyUp() //for inserting
     //folowing the last element, check if the parent is greater, if it is, swap the two.
 
     long int walker=lastChildEntered-1; //lastChildEntered acts like a size
-
-    std::cout<<"DEBUG OMFG WTH "<<std::endl;
-    for (unsigned int i=0;i<list.size();++i)
-    {
-        std::cout<<list[i]<<"_";
-    }
-    std::cout<<std::endl<<"DEBUG OMFG WTF "<<std::endl;
-
-
 
     //this function only gets called if lastChildEntered is at least 2
     while(list[(walker-1)/2] > list[walker]) //OPTIMIZABLE: possibly create new variable to do the math

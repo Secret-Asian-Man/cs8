@@ -5,7 +5,10 @@ CONFIG -= qt
 CONFIG += c++11
 
 SOURCES += main.cpp \
-    word.cpp
+    word.cpp \
+    ftoken.cpp \
+    stoken.cpp \
+    orchard.cpp
 
 include(deployment.pri)
 qtcAddDeployment()
@@ -13,5 +16,8 @@ qtcAddDeployment()
 HEADERS += \
     pair.h \
     vectorHeap.h \
-    word.h
+    word.h \
+    ftoken.h \
+    stoken.h \
+    orchard.h
 

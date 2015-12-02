@@ -44,8 +44,8 @@ public:
 
     //operators
     word& operator =(const word &other);
-    bool operator >(const word &other);//might have to make this a friend, refer to pair.h
-    bool operator <(const word &other);//might have to make this a friend, refer to pair.h
+    bool operator >(const word &other) const;//might have to make this a friend, refer to pair.h
+    bool operator <(const word &other) const;//might have to make this a friend, refer to pair.h
 
 private:
 

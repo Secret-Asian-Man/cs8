@@ -119,12 +119,12 @@ word &word::operator=(const word &other)
     return *this;
 }
 
-bool word::operator >(const word &other)
+bool word::operator >(const word &other) const
 {
     return theWord.compare(other.theWord) >= 0;
 }
 
-bool word::operator <(const word &other)
+bool word::operator <(const word &other) const
 {
     return theWord.compare(other.theWord) <= 0;
 }
