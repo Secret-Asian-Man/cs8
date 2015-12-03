@@ -3,10 +3,11 @@
 #include "vectorHeap.h"
 #include <vector>
 #include "word.h"
-#include "myTokenizer.h"
 #include <string>
+#include <fstream>
 
 const unsigned int ALPHABET_SIZE = 26;
+enum FILE_ERROR{fileNotFound};
 
 using std::vector;
 
@@ -47,7 +48,13 @@ public:
 private:
     //Private Member Variables
     vectorHeap<word*> alphabetOrchard[ALPHABET_SIZE];
-    myTokenizer tokens;
+
+    std::ifstream file;
+    string block;
+    unsigned int blockPosition;
+    unsigned int lineCount;
+    unsigned int paragraphCount;
+    unsigned int totalWordCount;
 
     //Private Functions
     unsigned int getHeapPosition(char key); //returns the position number in the alphabetOrchard array a associated to the letter

@@ -3,7 +3,10 @@
 
 orchard::orchard(std::string fileName)
 {
+
     tokens.loadNewFile(fileName.c_str());
+    plantOrchard();
+    displayOrchard();
 }
 
 orchard::orchard(const orchard &other)
@@ -63,6 +66,8 @@ void orchard::displayOrchard()
         printOneTree(i);
     }
 
+
+
     //make this@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 }
 
@@ -91,6 +96,10 @@ unsigned int orchard::getHeapPosition(char key)
 void orchard::plantOrchard()
 {
     word* temp=new word;
+
+
+
+
 
     while(tokens.getNextWord(temp))
     {

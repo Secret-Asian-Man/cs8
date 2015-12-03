@@ -204,7 +204,7 @@ bool myTokenizer::firstNotOf(std::string set, char key)
 
 bool myTokenizer::isBlockDone()
 {
-    return
+  // return
 }
 
 bool myTokenizer::getNextBlock()
