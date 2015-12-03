@@ -109,3 +109,4 @@ HASH (A unique function such that a key will always give you the same index) cti
 -------------------------------------------------------
 BIN SORT
 
+-mergesort is one of the best sorting algorithms

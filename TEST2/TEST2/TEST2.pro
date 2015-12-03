@@ -6,9 +6,8 @@ CONFIG += c++11
 
 SOURCES += main.cpp \
     word.cpp \
-    ftoken.cpp \
-    stoken.cpp \
-    orchard.cpp
+    orchard.cpp \
+    myTokenizer.cpp \
 
 include(deployment.pri)
 qtcAddDeployment()
@@ -17,7 +16,7 @@ HEADERS += \
     pair.h \
     vectorHeap.h \
     word.h \
-    ftoken.h \
-    stoken.h \
-    orchard.h
+    orchard.h \
+    myTokenizer.h \
+    constants.h
 

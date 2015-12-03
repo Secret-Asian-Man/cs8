@@ -20,17 +20,17 @@ orchard::~orchard()
 orchard &orchard::operator =(const orchard &other)
 {
     if (this != &other)
-        copy();
+        copy(other);
 
     return *this;
 }
 
 std::ostream& operator<<(std::ostream &out, const orchard &q)
 {
-//    if (out==std::cout)
-//        q.displayOrchard();
-//    else
-//        q.saveToFile();
+    //    if (out==std::cout)
+    //        q.displayOrchard();
+    //    else
+    //        q.saveToFile();
 }
 
 
@@ -85,10 +85,16 @@ unsigned int orchard::getHeapPosition(char key)
 */
 void orchard::insert()
 {
+    word* temp=new word;
 
-    word temp= tokens.getNextWord();
+    while(tokens.getNextWord(temp))
+    {
+        if(!temp->getWord().empty())
+        alphabetOrchard[getHeapPosition(temp->getFirstLetter())].insert(temp); //goes to the correct tree in the orchard and inserts a word into that tree
 
-    alphabetOrchard[getHeapPosition(temp.getFirstLetter())].insert(temp); //goes to the correct tree in the orchard and inserts a word into that tree
+        temp=new word;
+    }
+
 
 }
 
@@ -97,15 +103,23 @@ void orchard::insert()
 
 void orchard::saveToFile()
 {
-    std::ofstream out;
-    out.open("../resources/output.txt");
-    out<<
+//    std::ofstream out;
+//    out.open("../resources/output.txt");
+//    out<<
 
-          out.close();
+//          out.close();
 }
 
 void orchard::print(char key)
 {
-    alphabetOrchard[getHeapPosition(key)].printAll();
+    //alphabetOrchard[getHeapPosition(key)].printAll();
+}
+
+void orchard::copy(const orchard &other)
+{
+    for(unsigned int i=0; i<ALPHABET_SIZE; ++i)
+        alphabetOrchard[i]=other.alphabetOrchard[i];
+
+    tokens=other.tokens;
 }
 

@@ -25,6 +25,7 @@ using namespace std;
 //template<typename T>
 //void swap(T &x, T &y);
 
+
 enum ERRORS{fileFailedToOpen};
 
 int main()
@@ -34,26 +35,25 @@ int main()
 
     try
     {
-
-
-
-
-
         ofstream out;
-        out.open("../resources/myOutput.txt");
 
-        if (!out.is_open())
-            throw fileFailedToOpen;
+        out<<"test test"<<"\n\n\n\n\n"<<"@#@#$$$$$";
 
-        out<<"Thou bootless full-gorged strumpet. \n";
-        out<<"Thou vain pox-marked hedge-pig. \n";
-        out<<"Thou puny full-gorged joithead. \n";
-        out<<"thou delicate best-tempered wafer-cake. \n";
-        out<<"thou delicate tiger-booted cukoo-bud. \n";
-        out<<"thou fruitful tender-hearted true-penny. \n";
-        out<<"Thou bootless tickle-brained flax-wench. \n";
 
-        out.close();
+//        out.open("../resources/myOutput.txt");
+
+//        if (!out.is_open())
+//            throw fileFailedToOpen;
+
+//        out<<"Thou bootless full-gorged strumpet. \n";
+//        out<<"Thou vain pox-marked hedge-pig. \n";
+//        out<<"Thou puny full-gorged joithead. \n";
+//        out<<"thou delicate best-tempered wafer-cake. \n";
+//        out<<"thou delicate tiger-booted cukoo-bud. \n";
+//        out<<"thou fruitful tender-hearted true-penny. \n";
+//        out<<"Thou bootless tickle-brained flax-wench. \n";
+
+//        out.close();
 
     }
     catch(ERRORS error)

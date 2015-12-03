@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <vector>
+#include <fstream>
 
 using std::bitset;
 using std::string;
@@ -19,7 +20,7 @@ template<typename T>
 class vectorHeap
 {
 public:
-     typedef bool (vectorHeap<T>::*fptr)(const T &x,const  T &y);
+    typedef bool (vectorHeap<T>::*fptr)(const T &x,const  T &y);
 
     //Constructors
     vectorHeap(HEAP_TYPE t = LESSTHAN);
@@ -48,8 +49,7 @@ public:
     void AlexPrint(long int root, long int depth) const;
     void insert(const T &data);
     T remove();
-    void printAll();
-
+    void printAll(std::ofstream out=std::cout, bool saveToFile=false, string fileName="");
 
 private:
 
@@ -222,13 +222,30 @@ T vectorHeap<T>::remove() //should work
 }
 
 template<typename T>
-void vectorHeap<T>::printAll()
+void vectorHeap<T>::printAll(std::ofstream out, bool saveToFile, string fileName)
 {
     //the act of printing destroys the heap
     //out or cout?
 
-    in the tree of words, I want to run the print function of each.
-    I also want to be able to save the print to a file
+    if (saveToFile && out != std::cout) //saves to file
+    {
+        out.open(fileName.c_str());
+
+        if (out.is_open())
+            while(!list.empty())
+                out<<remove()<<"\n";
+
+        out.close();
+    }
+    else //prints to console
+    {
+        while(!list.empty())
+           out<<remove()<<"\n";
+    }
+
+
+    //    in the tree of words, I want to run the print function of each.
+    //    I also want to be able to save the print to a file
 }
 
 template<typename T>
