@@ -5,8 +5,8 @@
 #include "word.h"
 #include "myTokenizer.h"
 #include <string>
+#include "constants.h"
 
-const unsigned int ALPHABET_SIZE = 26;
 
 using std::vector;
 
@@ -16,7 +16,7 @@ public:
 
 
     //Constructors
-    orchard();
+    orchard(string fileName="");
     orchard(const orchard &other);
 
     //Destructor
@@ -37,7 +37,7 @@ public:
 
     //Functions
     long int alphaFrequency(char key);//the number of words which begin with each letter of the alphabet. Got to tree 'D' and display the count
-    vectorHeap<word>& getHeap(char key); //gets certain heap
+    vectorHeap<word *> &getHeap(char key); //gets certain heap
 
 
     // A summary page that gives the word count, paragraph count, reading level, the 10 most frequently used words, the number of words which begin with each letter of the alphabet, and the total time to process the document.
@@ -51,10 +51,10 @@ private:
 
     //Private Functions
     unsigned int getHeapPosition(char key); //returns the position number in the alphabetOrchard array a associated to the letter
-    void insert(); //takes words from tokenizer and sorts and adds them to the orchard
     void saveToFile(); //saves output to a file
-    void print(char key);
+    void printOneTree(unsigned int position);
     void copy(const orchard &other);
+    void plantOrchard(); //populates orchard upon startup by taking words from tokenizer and sorts and adds them to the orchard
 
 
 

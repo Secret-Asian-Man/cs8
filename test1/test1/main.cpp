@@ -30,70 +30,30 @@ enum ERRORS{fileFailedToOpen};
 
 int main()
 {
-    //===================================================================
-    //OUTPUT TO FILE
+//    //===================================================================
+//    //OUTPUT TO FILE
 
-    try
-    {
-        ofstream out;
-
-        out<<"test test"<<"\n\n\n\n\n"<<"@#@#$$$$$";
-
-
-//        out.open("../resources/myOutput.txt");
-
-//        if (!out.is_open())
-//            throw fileFailedToOpen;
-
-//        out<<"Thou bootless full-gorged strumpet. \n";
-//        out<<"Thou vain pox-marked hedge-pig. \n";
-//        out<<"Thou puny full-gorged joithead. \n";
-//        out<<"thou delicate best-tempered wafer-cake. \n";
-//        out<<"thou delicate tiger-booted cukoo-bud. \n";
-//        out<<"thou fruitful tender-hearted true-penny. \n";
-//        out<<"Thou bootless tickle-brained flax-wench. \n";
-
-//        out.close();
-
-    }
-    catch(ERRORS error)
-    {
-        switch (error)
-        {
-
-        case fileFailedToOpen:
-            std::cout<<"ERROR fileFailedToOpen "<<std::endl;
-            break;
-
-        default:
-            std::cout<<"Unknown Error... "<<std::endl;
-            break;
-        }
-    }
-    //===================================================================
-
-
-////===================================================================
-//    //READ FILE
 //    try
 //    {
-//        string inputString;
+//        ofstream out;
 
-//        ifstream inputFile;
-//        inputFile.open("../resources/readMe.txt");
+//        out<<"test test"<<"\n\n\n\n\n"<<"@#@#$$$$$";
 
-//        if (!inputFile.is_open())
-//            throw fileFailedToOpen;
 
-//        while(!inputFile.eof())
-//        {
-//            char temp;
-//            inputFile.get(temp);
-//            inputString += temp;
-//        }
-//        inputFile.close();
+////        out.open("../resources/myOutput.txt");
 
-//        std::cout<<"DEBUG inputString: "<<inputString<<std::endl;
+////        if (!out.is_open())
+////            throw fileFailedToOpen;
+
+////        out<<"Thou bootless full-gorged strumpet. \n";
+////        out<<"Thou vain pox-marked hedge-pig. \n";
+////        out<<"Thou puny full-gorged joithead. \n";
+////        out<<"thou delicate best-tempered wafer-cake. \n";
+////        out<<"thou delicate tiger-booted cukoo-bud. \n";
+////        out<<"thou fruitful tender-hearted true-penny. \n";
+////        out<<"Thou bootless tickle-brained flax-wench. \n";
+
+////        out.close();
 
 //    }
 //    catch(ERRORS error)
@@ -102,7 +62,7 @@ int main()
 //        {
 
 //        case fileFailedToOpen:
-//            std::cout<<"ERROR File Failed To Open "<<std::endl;
+//            std::cout<<"ERROR fileFailedToOpen "<<std::endl;
 //            break;
 
 //        default:
@@ -110,8 +70,48 @@ int main()
 //            break;
 //        }
 //    }
+//    //===================================================================
 
-////===================================================================
+
+//===================================================================
+    //READ FILE
+    try
+    {
+        string inputString;
+
+        ifstream inputFile;
+        inputFile.open("../resources/readMe.txt");
+
+        if (!inputFile.is_open())
+            throw fileFailedToOpen;
+
+        while(!inputFile.eof())
+        {
+            char temp;
+            inputFile.get(temp);
+            inputString += temp;
+        }
+        inputFile.close();
+
+        std::cout<<"DEBUG inputString: "<<inputString<<std::endl;
+
+    }
+    catch(ERRORS error)
+    {
+        switch (error)
+        {
+
+        case fileFailedToOpen:
+            std::cout<<"ERROR File Failed To Open "<<std::endl;
+            break;
+
+        default:
+            std::cout<<"Unknown Error... "<<std::endl;
+            break;
+        }
+    }
+
+//===================================================================
 
 
 

@@ -1,13 +1,11 @@
 #include "myTokenizer.h"
+#include "constants.h"
 
-enum FILE_ERROR{fileNotFound};
 
 myTokenizer::myTokenizer()
 {
     lineCount=paragraphCount=totalWordCount=blockPosition=0;
     block="";
-
-    loadNewFile("../resources/output.txt");
 }
 
 myTokenizer::myTokenizer(const std::string &fileName)
@@ -31,7 +29,6 @@ myTokenizer::myTokenizer(const myTokenizer &other)
     totalWordCount=other.totalWordCount;
     blockPosition=other.blockPosition;
     block=other.block;
-    file=other.file;
 }
 
 myTokenizer::~myTokenizer()
@@ -98,7 +95,6 @@ myTokenizer &myTokenizer::operator=(const myTokenizer &other)
         paragraphCount=other.paragraphCount;
         totalWordCount=other.totalWordCount;
         block=other.block;
-        file=other.file;
     }
 
     return *this;
@@ -208,11 +204,11 @@ bool myTokenizer::isBlockDone()
 bool myTokenizer::getNextBlock()
 {
 
-    blockPosition=0;
-    if (!file.eof())
-    {
-        block<<;
-    }
+    blockPosition=0; //getting new block so reset my progress in my old block
+
+    char tempCString[block.max_size()-BUFFER_ZONE]; //
+    file.read(tempCString, block.max_size()-BUFFER_ZONE); //.read reads a custom amount from the file, but only takes c-strings
+    block.assign(tempCString);//converts cstring back to a normal string
 
 }
 

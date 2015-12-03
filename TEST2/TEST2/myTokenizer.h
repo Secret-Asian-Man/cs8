@@ -2,17 +2,19 @@
 #define MYTOKENIZER_H
 #include <string>
 #include "word.h"
-#include <sstream>
+#include <fstream>
 
 using std::string;
-using std::stringstream;
+using std::ifstream;
+
+enum FILE_ERROR{fileNotFound};
 
 class myTokenizer
 {
 public:
     //Constructors
     myTokenizer();
-    myTokenizer(const std::string &fileName="");
+    myTokenizer(const std::string &fileName);
     myTokenizer(const myTokenizer &other);
 
 
@@ -49,7 +51,7 @@ private:
     //Private Member Variables
     string block;
     unsigned int blockPosition;
-    stringstream file; //using g_count to keep track of where we are in file.
+    ifstream file; //using g_count to keep track of where we are in file.
     unsigned int lineCount;
     unsigned int paragraphCount;
     unsigned int totalWordCount;

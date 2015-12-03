@@ -9,19 +9,19 @@ word::word()
 
 }
 
-word::word(const std::string &aWord, unsigned int myParagraphNumber, unsigned int myLinenumber, unsigned int myfrequencyCount, unsigned int mySyllableCount)
+word::word(const std::string &aWord, unsigned int myParagraphNumber, unsigned int myLinenumber, unsigned int myfrequencyCount)
 {
     theWord=aWord;
     pushToVector(myParagraphNumber,myLinenumber);
-    syllableCount=mySyllableCount;
+    syllableCount=countSyllables(theWord);
     frequencyCount=myfrequencyCount;
 }
 
-word::word(const std::string &aWord, const pair<unsigned int, unsigned int> &myParagraphAndLineNumbers, unsigned int myfrequencyCount, unsigned int mySyllableCount)
+word::word(const std::string &aWord, const pair<unsigned int, unsigned int> &myParagraphAndLineNumbers, unsigned int myfrequencyCount)
 {
     theWord=aWord;
     pushToVector(myParagraphAndLineNumbers);
-    syllableCount=mySyllableCount;
+    syllableCount=countSyllables(theWord);
     frequencyCount=myfrequencyCount;
 }
 
@@ -91,6 +91,7 @@ std::vector<pair<unsigned int, unsigned int> > word::getParagraphAndLine()
 void word::setWord(const std::string &myWord)
 {
     theWord=myWord;
+    syllableCount=countSyllables(theWord);
 }
 
 void word::setFrequencyCount(unsigned int myfrequencyCount)
@@ -145,6 +146,12 @@ bool word::operator <(const word &other) const
     return theWord.compare(other.theWord) <= 0;
 }
 
+unsigned int word::countSyllables(std::string myWord)
+{
+    //mejan write this @@@@@@@@@@@@@@@@@@@@@@@@@@@@
+}
+
+//write print @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 //std::ofstream &word::operator <<(std::ofstream &out, const word &other)
 //{
 ////    std::vector< pair<unsigned int, unsigned int> > paragraphAndLine;

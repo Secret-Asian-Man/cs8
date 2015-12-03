@@ -1,14 +1,14 @@
 #include "orchard.h"
 #include <fstream>
 
-orchard::orchard()
+orchard::orchard(std::string fileName)
 {
-
+    tokens.loadNewFile(fileName.c_str());
 }
 
 orchard::orchard(const orchard &other)
 {
-
+    copy(other);
 }
 
 orchard::~orchard()
@@ -51,14 +51,19 @@ long int orchard::alphaFrequency(char key)
     @param key: for selecting which tree
     @return returns a reference to the original vectorHeap object
 */
-vectorHeap<word>& orchard::getHeap(char key)
+vectorHeap<word*>& orchard::getHeap(char key)
 {
     return alphabetOrchard[getHeapPosition(key)];
 }
 
 void orchard::displayOrchard()
 {
+    for (unsigned int i=0;i<ALPHABET_SIZE;++i)
+    {
+        printOneTree(i);
+    }
 
+    //make this@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 }
 
 /**
@@ -83,7 +88,7 @@ unsigned int orchard::getHeapPosition(char key)
     @param
     @return
 */
-void orchard::insert()
+void orchard::plantOrchard()
 {
     word* temp=new word;
 
@@ -108,11 +113,14 @@ void orchard::saveToFile()
 //    out<<
 
 //          out.close();
+
+    //make this@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 }
 
-void orchard::print(char key)
+void orchard::printOneTree(unsigned int position)
 {
-    //alphabetOrchard[getHeapPosition(key)].printAll();
+    alphabetOrchard[position].printAll(); //need printall for lower levels
+    //make this@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 }
 
 void orchard::copy(const orchard &other)
@@ -122,4 +130,5 @@ void orchard::copy(const orchard &other)
 
     tokens=other.tokens;
 }
+
 

@@ -11,8 +11,8 @@ public:
 
     //constructors
     word();
-    word(const std::string &aWord, unsigned int myParagraphNumber, unsigned int myLinenumber,unsigned int myfrequencyCount=1, unsigned int mySyllableCount=1);
-    word(const std::string &aWord, const pair<unsigned int, unsigned int>  &myParagraphAndLineNumbers,unsigned int myfrequencyCount=1, unsigned int mySyllableCount=1);
+    word(const std::string &aWord, unsigned int myParagraphNumber, unsigned int myLinenumber,unsigned int myfrequencyCount=1);
+    word(const std::string &aWord, const pair<unsigned int, unsigned int>  &myParagraphAndLineNumbers,unsigned int myfrequencyCount=1);
     word(const word &other);
 
 
@@ -56,6 +56,7 @@ private:
 
     //private functions
     void capitalizeFirstLetter();
+    unsigned int countSyllables(std::string myWord);
     void incrementSyllableCount(unsigned int count=1);
 
     //private variables
