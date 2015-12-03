@@ -7,6 +7,7 @@
 #include <fstream>
 
 const unsigned int ALPHABET_SIZE = 26;
+const std::string SET="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM\'-";
 enum FILE_ERROR{fileNotFound};
 
 using std::vector;
@@ -62,6 +63,9 @@ private:
     void printOneTree(unsigned int position);
     void copy(const orchard &other);
     void plantOrchard(); //populates orchard upon startup by taking words from tokenizer and sorts and adds them to the orchard
+    bool firstOf(string set, char key);
+    bool firstNotOf(string set, char key);
+    bool getNextWord(word *myWord); //Makes a word class and sends it out. Will detect that block is now empty and gets a new block
 
 
 
