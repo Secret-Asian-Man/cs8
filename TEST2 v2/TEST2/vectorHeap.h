@@ -50,6 +50,7 @@ public:
     void insert(const T &data);
     T remove();
     void printAll(/*std::ofstream out=std::cout, bool saveToFile=false, string fileName=""*/);
+    void saveAll(std::ofstream &out);
 
 private:
 
@@ -222,40 +223,17 @@ T vectorHeap<T>::remove()
 }
 
 template<typename T>
-void vectorHeap<T>::printAll(/*std::ofstream out, bool saveToFile, string fileName*/)
+void vectorHeap<T>::printAll()
 {
-    //the act of printing destroys the heap
-    //out or cout?
-
     while(!list.empty())
-    {
-//        std::cout<<remove()<<"\n";
         remove()->print();
-    }
+}
 
-
-
-
-
-//    if (saveToFile && out != std::cout) //saves to file
-//    {
-//        out.open(fileName.c_str());
-
-//        if (out.is_open())
-//            while(!list.empty())
-//                out<<remove()<<"\n";
-
-//        out.close();
-//    }
-//    else //prints to console
-//    {
-//        while(!list.empty())
-//           out<<remove()<<"\n";
-//    }
-
-
-    //    in the tree of words, I want to run the print function of each.
-    //    I also want to be able to save the print to a file
+template<typename T>
+void vectorHeap<T>::saveAll(std::ofstream& out)
+{
+    while(!list.empty())
+        remove()->save(out);
 }
 
 template<typename T>

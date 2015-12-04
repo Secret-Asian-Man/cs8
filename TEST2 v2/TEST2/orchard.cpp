@@ -11,8 +11,6 @@ orchard::orchard(std::string fileName)
         throw fileNotFound;
 
     plantOrchard();
-
-    displayOrchard();
 }
 
 orchard::orchard(const orchard &other)
@@ -29,6 +27,8 @@ orchard::~orchard()
 
     for (unsigned int i=0;i<ALPHABET_SIZE;++i)
         alphabetOrchard[i].clear();
+
+
 }
 
 orchard &orchard::operator =(const orchard &other)
@@ -72,16 +72,30 @@ vectorHeap<word*>& orchard::getHeap(char key)
 
 void orchard::displayOrchard()
 {
+    //save to file then display the file on console
 
-        for (unsigned int i=0;i<ALPHABET_SIZE;++i)
-        {
-            alphabetOrchard[i].printAll();
-            system("pause");
-        }
+    out.open("../resources/output.txt");
+
+    for (unsigned int i=0;i<ALPHABET_SIZE;++i)
+    {
+        alphabetOrchard[i].saveAll(out);
+    }
+    out.close();
 
 
+    std::ifstream console;
+    string outputString;
+    console.open("../resources/output.txt");
+    if (console.fail())
+    throw fileNotFound;
+    while(!console.eof())
+    {
+        std::getline(console,outputString);
+        std::cout<<outputString<<std::endl;
 
-    //make this@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    }
+
+
 }
 
 /**
@@ -125,9 +139,9 @@ void orchard::plantOrchard()
                 alphabetOrchard[getHeapPosition(temp->getFirstLetter())].insert(temp);
             }
 
+
             temp=new word;
         }
-
         blockPosition=0;
         ++lineCount;
     }
@@ -182,7 +196,8 @@ bool orchard::getNextWord(word *myWord)
     if (tempPos>=0)
         temp=temp.substr(tempPos);
 
-    if (!temp.empty())
+
+    if (tempPos>=0)//if the string isn't empty
     {
         myWord->setWord(temp);
         myWord->incrementFrequencyCount();
@@ -192,84 +207,11 @@ bool orchard::getNextWord(word *myWord)
     }
 
     return false; //returns false if it runs out of words. Shouldve returned true at this point.
-
-
-
-
-
-
-
-
-
-
-    //    if (isBlockDone()) //if the block is "empty"
-    //        if(!getNextBlock()) //get the next block, and if you can't return false
-    //            return false;
-
-    //    unsigned int lastElement=block.size()-1;
-
-    //    while(firstNotOf(SET,block[blockPosition]) && blockPosition<=lastElement) //gets skipped if block is "empty"
-    //    {
-    //        std::cout<<"DEBUG blockPosition: "<<blockPosition<<std::endl;
-    //        std::cout<<"DEBUG block[blockPosition]: "<<block[blockPosition]<<std::endl;
-    //        system ("pause");
-
-    //        bool xnorGate=true; //if this ever becomes false it stays false
-    //        bool isParagraph=false;
-
-    //        while(block[blockPosition]=='\n' && blockPosition<=lastElement)
-    //        {
-    //            ++lineCount;
-    //            ++blockPosition;
-
-    //            if (!xnorGate) //gets ignored the first loop
-    //                isParagraph=true; //gets set to true a bunch of times, but will only count as 1 paragraph later.
-
-    //            xnorGate=false; //xnorGate will now always stay false
-    //        }
-
-    //        if (isParagraph)//gets reset every loop
-    //            ++paragraphCount; //at this point blockPosition is on something that isn't an end line
-    //        else
-    //            ++blockPosition; //works when no end lines are detected, proceeds as normal.
-
-    //}
-
-    //string temp=""; //the guy who calls this function will check if the string is empty, and ignore the word class if it is.
-
-    //while(firstOf(SET,block[blockPosition])&& blockPosition<=lastElement)//gets skipped if block is "empty"
-    //{
-    //    temp+=block[blockPosition];
-    //    ++blockPosition;
-    //}
-
-    //if (!temp.empty())
-    //{
-    //    myWord->setWord(temp);
-    //    myWord->incrementFrequencyCount();
-    //    myWord->pushToVector(paragraphCount,lineCount);
-    //    ++totalWordCount;
-    //}
-
-
-    //return true;
-}
-
-void orchard::saveToFile()
-{
-    //    std::ofstream out;
-    //    out.open("../resources/output.txt");
-    //    out<<
-
-    //          out.close();
-
-    //make this@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 }
 
 void orchard::printOneTree(unsigned int position)
 {
     alphabetOrchard[position].printAll(); //need printall for lower levels
-    //make this@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 }
 
 void orchard::copy(const orchard &other)

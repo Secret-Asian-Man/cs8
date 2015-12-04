@@ -1,17 +1,25 @@
 #include <iostream>
 #include "orchard.h"
+#include <cstdio>
+#include <ctime>
 
 using namespace std;
 
 int main()
 {
-
     try
     {
-        //orchard editorsDream("Project Gutenberg EBook of War and Peace, by Leo Tolstoy.txt");
-        orchard editorsDream("../resources/testInputFile.txt");
+        std::clock_t start;
+            double duration;
 
+            start = std::clock();
+        orchard editorsDream("../resources/Project Gutenberg EBook of War and Peace, by Leo Tolstoy.txt");
+//        orchard editorsDream("../resources/testInputFile.txt");
 
+        duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+          std::cout<<"Timer: "<< duration <<'\n';
+
+          editorsDream.displayOrchard();
     }
     catch(FILE_ERROR error)
     {

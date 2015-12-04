@@ -144,17 +144,19 @@ void word::print()
     std::cout<<std::endl<<"==========================================";
 
     std::cout<<std::endl<<std::endl<<std::endl<<std::endl<<std::endl;
+}
 
-    //    std::cout<<"================================== "<<std::endl;
-    //    std::cout<<"The word \""<<theWord<<"\" has "<<syllableCount<<" syllables, and appears "<<frequencyCount<<" time(s) at: ";
+void word::save(std::ostream &out)
+{
+    out<<"==========================================\n";
+    out<<std::setw(25)<<theWord<<"\n";
+    out<<"Syallables: "<<syllableCount<<"\n";
+    out<<"Count: "<<frequencyCount<<"\n";
+    out<<"Location(s): ";
+    for (unsigned int i=0;i<paragraphAndLine.size();++i)
+        out<<" (P:"<<paragraphAndLine[i].first<<" ,L:"<<paragraphAndLine[i].second<<") ";
 
-    //        for (unsigned int i=0;i<paragraphAndLine.size();++i)
-    //        {
-    //            std::cout<<paragraphAndLine[i];
-    //        }
-    //        std::cout<<"^^^^^^^^^^^^^^^^^^^^^^^^^^ "<<std::endl;
-    //        std::cout<<std::endl;
-    //        std::cout<<std::endl;
+    out<<"\n==========================================\n\n\n\n\n";
 }
 
 word &word::operator=(const word &other)
@@ -217,20 +219,9 @@ unsigned int word::countSyllables(std::string myWord)
     return mySyllableCount;
 }
 
-//write print @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 std::ofstream& operator <<(std::ofstream &out, const word &other)
 {
-    std::cout<<"DEBUG 333333333333333333333333333 "<<std::endl;
-    //    std::vector< pair<unsigned int, unsigned int> > paragraphAndLine;
 
-    //    out<<"The word \""<<theWord<<"\" has "<<syllableCount<<"syllables, and appears "<<frequencyCount<<" times at: ";
-
-    //    for (unsigned int i=0;i<paragraphAndLine.size();++i)
-    //    {
-    //        out<<
-    //    }
-
-    //    return out;
 }
 
 void word::capitalizeFirstLetter()

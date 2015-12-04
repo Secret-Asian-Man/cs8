@@ -63,14 +63,12 @@ private:
 
     //Private Functions
     unsigned int getHeapPosition(char key); //returns the position number in the alphabetOrchard array a associated to the letter
-    void saveToFile(); //saves output to a file
     void printOneTree(unsigned int position);
     void copy(const orchard &other);
     void plantOrchard(); //populates orchard upon startup by taking words from tokenizer and sorts and adds them to the orchard
     bool firstOf(string set, char key);
     bool firstNotOf(string set, char key);
     bool getNextWord(word *myWord); //Makes a word class and sends it out. Will detect that block is now empty and gets a new block
-
 
 
 

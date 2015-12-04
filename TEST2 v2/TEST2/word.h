@@ -44,11 +44,12 @@ public:
     void incrementFrequencyCount(unsigned int count=1);
     void clear();
     void print();
+    void save(std::ostream& out);
 
     //operators
     word& operator =(const word &other);
-    bool operator >(const word &other) const;//might have to make this a friend, refer to pair.h
-    bool operator <(const word &other) const;//might have to make this a friend, refer to pair.h
+    bool operator >(const word &other) const;
+    bool operator <(const word &other) const;
 
     friend
     std::ofstream& operator <<(std::ofstream &out, const word &other);
