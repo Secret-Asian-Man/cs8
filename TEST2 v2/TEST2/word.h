@@ -43,6 +43,7 @@ public:
     //functions
     void incrementFrequencyCount(unsigned int count=1);
     void clear();
+    void print();
 
     //operators
     word& operator =(const word &other);

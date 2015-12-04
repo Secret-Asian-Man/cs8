@@ -203,7 +203,7 @@ void vectorHeap<T>::insert(const T &data) //should work
 }
 
 template<typename T>
-T vectorHeap<T>::remove() //should work
+T vectorHeap<T>::remove()
 {
     if (list.empty())
         throw EMPTY;
@@ -226,13 +226,11 @@ void vectorHeap<T>::printAll(/*std::ofstream out, bool saveToFile, string fileNa
 {
     //the act of printing destroys the heap
     //out or cout?
-    std::cout<<"DEBUG 11111111111111111111 "<<std::endl;
 
     while(!list.empty())
-    {    std::cout<<"DEBUG 222222222222222222222222 "<<std::endl;
-
-
-        std::cout<<remove()<<"\n";
+    {
+//        std::cout<<remove()<<"\n";
+        remove()->print();
     }
 
 
@@ -294,13 +292,6 @@ void vectorHeap<T>::reheapifyDown() //for removing root
 
     while(walker < lastChildEntered-1 && loopAgain)
     {
-        std::cout<<"=========== "<<std::endl;
-        for (unsigned int i=0;i<list.size();++i)
-        {
-            std::cout<<list[i]<<"_";
-        }
-        std::cout<<std::endl<<"^^^^^^^^^^^ "<<std::endl;
-
         if(2*walker+1 < lastChildEntered-1 && 2*walker+2 <= lastChildEntered-1)//if there is left AND right child //OPTIMIZABLE
         {
             if(list[2*walker+1] < list[2*walker+2])//if left child is smaller. If negative left is smaller, if positive right is smaller

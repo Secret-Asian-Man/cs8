@@ -8,6 +8,7 @@
 
 const unsigned int ALPHABET_SIZE = 26;
 const std::string SET="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM\'-";
+const std::string ALPHA="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
 const std::string PUNC=".!?";
 enum FILE_ERROR{fileNotFound};
 
@@ -52,6 +53,7 @@ private:
     vectorHeap<word*> alphabetOrchard[ALPHABET_SIZE];
 
     std::ifstream file;
+    std::ofstream out;
     string block;
     unsigned int blockPosition;
     unsigned int lineCount;

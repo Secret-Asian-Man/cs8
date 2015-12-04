@@ -72,10 +72,12 @@ vectorHeap<word*>& orchard::getHeap(char key)
 
 void orchard::displayOrchard()
 {
-    for (unsigned int i=0;i<ALPHABET_SIZE;++i)
-    {
-        printOneTree(i);
-    }
+
+        for (unsigned int i=0;i<ALPHABET_SIZE;++i)
+        {
+            alphabetOrchard[i].printAll();
+            system("pause");
+        }
 
 
 
@@ -117,16 +119,18 @@ void orchard::plantOrchard()
 
         while(getNextWord(temp)) //tokenizes the string and inserts it to the heap
         {
-            temp=new word;
-            if(!temp->getWord().empty())
-                alphabetOrchard[getHeapPosition(temp->getFirstLetter())].insert(temp);
 
+            if(!temp->getWord().empty())
+            {
+                alphabetOrchard[getHeapPosition(temp->getFirstLetter())].insert(temp);
+            }
+
+            temp=new word;
         }
 
         blockPosition=0;
         ++lineCount;
     }
-
 
 }
 
@@ -154,12 +158,12 @@ bool orchard::firstNotOf(std::string set, char key)
 
 bool orchard::getNextWord(word *myWord)
 {
-    std::cout<<"DEBUG block: "<<block<<std::endl;
     while(firstNotOf(SET,block[blockPosition]) && blockPosition < block.size()) //ignores unwanted characters
     {
-        std::cout<<"DEBUG block[blockPosition]: "<<block[blockPosition]<<std::endl;
         if (firstOf(PUNC,block[blockPosition]))
+        {
             ++sentenceCount;
+        }
 
         ++blockPosition;
     }
@@ -172,8 +176,12 @@ bool orchard::getNextWord(word *myWord)
         ++blockPosition;
     }
 
-    std::cout<<"DEBUG temp : "<<temp<<std::endl;
-    system("pause");
+
+    //removes weird words that don't start with a letter.
+    int tempPos=temp.find_first_of(ALPHA);
+    if (tempPos>=0)
+        temp=temp.substr(tempPos);
+
     if (!temp.empty())
     {
         myWord->setWord(temp);
