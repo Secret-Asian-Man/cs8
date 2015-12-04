@@ -148,7 +148,38 @@ bool word::operator <(const word &other) const
 
 unsigned int word::countSyllables(std::string myWord)
 {
-    //mejan write this @@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+    std::string vowels = "aeiou";                                                                        //SOMETIMES Y
+
+    const unsigned int SIZE = myWord.size();
+    std::string wordCopy = myWord;
+
+    bool prevWasSyllable = false;
+    unsigned int mySyllableCount;
+
+
+    for(unsigned i = 0; i<SIZE; ++i)                                                                 //going through the word
+    {
+
+            for(unsigned j = 0; j<5; ++j)                                                           //going through the vowels
+            {
+                if(!prevWasSyllable && wordCopy[i] == vowels[j])
+                {
+                    ++mySyllableCount;
+                    prevWasSyllable = true;
+
+                }
+                else if(!(SIZE == 2 && i == 0) &&( wordCopy[i] == 'y' || wordCopy[i] == 'Y') && !prevWasSyllable)      //SOMETIMES Y case: if y is NOT at the beginning of a 2 letter word, it is a vowel
+                {
+                    ++mySyllableCount;
+                    prevWasSyllable = true;
+                }
+                else                                                                                //MEANS LETTER IS NOT A VOWEL
+                prevWasSyllable = false;
+            }
+    }
+
+    return mySyllableCount;
 }
 
 //write print @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

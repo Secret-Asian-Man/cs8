@@ -3,7 +3,7 @@
 
 orchard::orchard(std::string fileName)
 {
-    lineCount=paragraphCount=totalWordCount=blockPosition=0;
+    sentenceCount=lineCount=paragraphCount=totalWordCount=blockPosition=0;
     block="";
 
     file.open(fileName.c_str());
@@ -22,7 +22,7 @@ orchard::orchard(const orchard &other)
 
 orchard::~orchard()
 {
-    lineCount=paragraphCount=totalWordCount=blockPosition=0;
+    sentenceCount=lineCount=paragraphCount=totalWordCount=blockPosition=0;
     block="";
 
     file.close();
@@ -117,10 +117,13 @@ void orchard::plantOrchard()
 
         while(getNextWord(temp)) //tokenizes the string and inserts it to the heap
         {
+            temp=new word;
             if(!temp->getWord().empty())
-                    alphabetOrchard[getHeapPosition(temp->getFirstLetter())].insert(temp);
+                alphabetOrchard[getHeapPosition(temp->getFirstLetter())].insert(temp);
+
         }
 
+        blockPosition=0;
         ++lineCount;
     }
 
@@ -138,29 +141,39 @@ bool orchard::firstOf(std::string set, char key)
 
 bool orchard::firstNotOf(std::string set, char key)
 {
-    for (unsigned int i=0;i<set.size();++i)
-        if (set[i]!=key)
-            return true;
+    bool temp=true;
 
-    return false;
+    for (unsigned int i=0;i<set.size();++i) //has to compare to everything before making a decision
+    {
+        if (set[i]==key)
+            temp= false;
+    }
+
+    return temp;
 }
 
 bool orchard::getNextWord(word *myWord)
 {
-    if (block.empty()) //returns false when no more characters in string
-        return false;
+    std::cout<<"DEBUG block: "<<block<<std::endl;
+    while(firstNotOf(SET,block[blockPosition]) && blockPosition < block.size()) //ignores unwanted characters
+    {
+        std::cout<<"DEBUG block[blockPosition]: "<<block[blockPosition]<<std::endl;
+        if (firstOf(PUNC,block[blockPosition]))
+            ++sentenceCount;
 
-    while(firstNotOf(SET,block[blockPosition])) //ignore if unwanted character
         ++blockPosition;
+    }
 
     string temp="";
 
-    while(firstOf(SET,block[blockPosition])&& blockPosition<=lastElement) //gets word
+    while(firstOf(SET,block[blockPosition]) && blockPosition < block.size()) //gets word
     {
         temp+=block[blockPosition];
         ++blockPosition;
     }
 
+    std::cout<<"DEBUG temp : "<<temp<<std::endl;
+    system("pause");
     if (!temp.empty())
     {
         myWord->setWord(temp);
@@ -170,9 +183,7 @@ bool orchard::getNextWord(word *myWord)
         return true;
     }
 
-
-    return false;
-
+    return false; //returns false if it runs out of words. Shouldve returned true at this point.
 
 
 
@@ -182,61 +193,59 @@ bool orchard::getNextWord(word *myWord)
 
 
 
-//    if (isBlockDone()) //if the block is "empty"
-//        if(!getNextBlock()) //get the next block, and if you can't return false
-//            return false;
 
-//    unsigned int lastElement=block.size()-1;
+    //    if (isBlockDone()) //if the block is "empty"
+    //        if(!getNextBlock()) //get the next block, and if you can't return false
+    //            return false;
 
-//    while(firstNotOf(SET,block[blockPosition]) && blockPosition<=lastElement) //gets skipped if block is "empty"
-//    {
-//        std::cout<<"DEBUG blockPosition: "<<blockPosition<<std::endl;
-//        std::cout<<"DEBUG block[blockPosition]: "<<block[blockPosition]<<std::endl;
-//        system ("pause");
+    //    unsigned int lastElement=block.size()-1;
 
-//        bool xnorGate=true; //if this ever becomes false it stays false
-//        bool isParagraph=false;
+    //    while(firstNotOf(SET,block[blockPosition]) && blockPosition<=lastElement) //gets skipped if block is "empty"
+    //    {
+    //        std::cout<<"DEBUG blockPosition: "<<blockPosition<<std::endl;
+    //        std::cout<<"DEBUG block[blockPosition]: "<<block[blockPosition]<<std::endl;
+    //        system ("pause");
 
-//        while(block[blockPosition]=='\n' && blockPosition<=lastElement)
-//        {
-//            ++lineCount;
-//            ++blockPosition;
+    //        bool xnorGate=true; //if this ever becomes false it stays false
+    //        bool isParagraph=false;
 
-//            if (!xnorGate) //gets ignored the first loop
-//                isParagraph=true; //gets set to true a bunch of times, but will only count as 1 paragraph later.
+    //        while(block[blockPosition]=='\n' && blockPosition<=lastElement)
+    //        {
+    //            ++lineCount;
+    //            ++blockPosition;
 
-//            xnorGate=false; //xnorGate will now always stay false
-//        }
+    //            if (!xnorGate) //gets ignored the first loop
+    //                isParagraph=true; //gets set to true a bunch of times, but will only count as 1 paragraph later.
 
-//        if (isParagraph)//gets reset every loop
-//            ++paragraphCount; //at this point blockPosition is on something that isn't an end line
-//        else
-//            ++blockPosition; //works when no end lines are detected, proceeds as normal.
+    //            xnorGate=false; //xnorGate will now always stay false
+    //        }
 
-    }
+    //        if (isParagraph)//gets reset every loop
+    //            ++paragraphCount; //at this point blockPosition is on something that isn't an end line
+    //        else
+    //            ++blockPosition; //works when no end lines are detected, proceeds as normal.
 
-    string temp=""; //the guy who calls this function will check if the string is empty, and ignore the word class if it is.
+    //}
 
-    while(firstOf(SET,block[blockPosition])&& blockPosition<=lastElement)//gets skipped if block is "empty"
-    {
-        temp+=block[blockPosition];
-        ++blockPosition;
-    }
+    //string temp=""; //the guy who calls this function will check if the string is empty, and ignore the word class if it is.
 
-    if (!temp.empty())
-    {
-        myWord->setWord(temp);
-        myWord->incrementFrequencyCount();
-        myWord->pushToVector(paragraphCount,lineCount);
-        ++totalWordCount;
-    }
+    //while(firstOf(SET,block[blockPosition])&& blockPosition<=lastElement)//gets skipped if block is "empty"
+    //{
+    //    temp+=block[blockPosition];
+    //    ++blockPosition;
+    //}
+
+    //if (!temp.empty())
+    //{
+    //    myWord->setWord(temp);
+    //    myWord->incrementFrequencyCount();
+    //    myWord->pushToVector(paragraphCount,lineCount);
+    //    ++totalWordCount;
+    //}
 
 
-    return true;
+    //return true;
 }
-
-
-
 
 void orchard::saveToFile()
 {
@@ -257,6 +266,14 @@ void orchard::printOneTree(unsigned int position)
 
 void orchard::copy(const orchard &other)
 {
+
+    block=other.block;
+    blockPosition=other.blockPosition;
+    lineCount=other.lineCount;
+    paragraphCount=other.paragraphCount;
+    totalWordCount=other.totalWordCount;
+    sentenceCount=other.sentenceCount;
+
     for(unsigned int i=0; i<ALPHABET_SIZE; ++i)
         alphabetOrchard[i]=other.alphabetOrchard[i];
 

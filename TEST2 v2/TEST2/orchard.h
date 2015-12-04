@@ -8,6 +8,7 @@
 
 const unsigned int ALPHABET_SIZE = 26;
 const std::string SET="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM\'-";
+const std::string PUNC=".!?";
 enum FILE_ERROR{fileNotFound};
 
 using std::vector;
@@ -56,6 +57,7 @@ private:
     unsigned int lineCount;
     unsigned int paragraphCount;
     unsigned int totalWordCount;
+    unsigned int sentenceCount;
 
     //Private Functions
     unsigned int getHeapPosition(char key); //returns the position number in the alphabetOrchard array a associated to the letter
@@ -66,7 +68,6 @@ private:
     bool firstOf(string set, char key);
     bool firstNotOf(string set, char key);
     bool getNextWord(word *myWord); //Makes a word class and sends it out. Will detect that block is now empty and gets a new block
-
 
 
 
