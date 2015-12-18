@@ -8,5 +8,6 @@ SOURCES += main.cpp \
     shortestdistance.cpp
 
 HEADERS += \
-    shortestdistance.h
+    shortestdistance.h \
+    containers.h
 
