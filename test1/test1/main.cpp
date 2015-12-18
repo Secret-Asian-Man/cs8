@@ -2,6 +2,7 @@
 //#include <cmath>
 //#include <string>
 #include <fstream>
+#include <vector>
 
 
 using namespace std;
@@ -26,92 +27,130 @@ using namespace std;
 //void swap(T &x, T &y);
 
 
+Dijkstra(map<>graph,int source)
+{
+   //set cost of initial edge is 0
+
+
+
+    for (unsigned int i=0;i<graph.size();++i)
+    {
+        if (i!=source)
+        {
+
+            //set the cost at postion i to infinity (INT_MAX)
+            //set cost of i-1 to undefined (use -1)
+        }
+
+        priorityQ.add(airport, infinity);
+
+    }
+
+    while(!priorityQ.empty())
+    {
+        double shortestDistance=priorityQ.remove();
+
+       for (auto neighbor:airport)
+       {
+           int alt = shortestDistance+
+       }
+    }
+}
+
+
 enum ERRORS{fileFailedToOpen};
 
 int main()
 {
-//    //===================================================================
-//    //OUTPUT TO FILE
-
-//    try
-//    {
-//        ofstream out;
-
-//        out<<"test test"<<"\n\n\n\n\n"<<"@#@#$$$$$";
 
 
-////        out.open("../resources/myOutput.txt");
-
-////        if (!out.is_open())
-////            throw fileFailedToOpen;
-
-////        out<<"Thou bootless full-gorged strumpet. \n";
-////        out<<"Thou vain pox-marked hedge-pig. \n";
-////        out<<"Thou puny full-gorged joithead. \n";
-////        out<<"thou delicate best-tempered wafer-cake. \n";
-////        out<<"thou delicate tiger-booted cukoo-bud. \n";
-////        out<<"thou fruitful tender-hearted true-penny. \n";
-////        out<<"Thou bootless tickle-brained flax-wench. \n";
-
-////        out.close();
-
-//    }
-//    catch(ERRORS error)
-//    {
-//        switch (error)
-//        {
-
-//        case fileFailedToOpen:
-//            std::cout<<"ERROR fileFailedToOpen "<<std::endl;
-//            break;
-
-//        default:
-//            std::cout<<"Unknown Error... "<<std::endl;
-//            break;
-//        }
-//    }
-//    //===================================================================
 
 
-//===================================================================
+
+
+
+    //    //===================================================================
+    //    //OUTPUT TO FILE
+
+    //    try
+    //    {
+    //        ofstream out;
+
+    //        out<<"test test"<<"\n\n\n\n\n"<<"@#@#$$$$$";
+
+
+    ////        out.open("../resources/myOutput.txt");
+
+    ////        if (!out.is_open())
+    ////            throw fileFailedToOpen;
+
+    ////        out<<"Thou bootless full-gorged strumpet. \n";
+    ////        out<<"Thou vain pox-marked hedge-pig. \n";
+    ////        out<<"Thou puny full-gorged joithead. \n";
+    ////        out<<"thou delicate best-tempered wafer-cake. \n";
+    ////        out<<"thou delicate tiger-booted cukoo-bud. \n";
+    ////        out<<"thou fruitful tender-hearted true-penny. \n";
+    ////        out<<"Thou bootless tickle-brained flax-wench. \n";
+
+    ////        out.close();
+
+    //    }
+    //    catch(ERRORS error)
+    //    {
+    //        switch (error)
+    //        {
+
+    //        case fileFailedToOpen:
+    //            std::cout<<"ERROR fileFailedToOpen "<<std::endl;
+    //            break;
+
+    //        default:
+    //            std::cout<<"Unknown Error... "<<std::endl;
+    //            break;
+    //        }
+    //    }
+    //    //===================================================================
+
+
+    //===================================================================
     //READ FILE
-    try
-    {
-        string inputString;
+    //    try
+    //    {
+    //        string inputString;
 
-        ifstream inputFile;
-        inputFile.open("../resources/readMe.txt");
+    //        ifstream inputFile;
+    //        inputFile.open("../resources/readMe.txt");
 
-        if (!inputFile.is_open())
-            throw fileFailedToOpen;
+    //        if (!inputFile.is_open())
+    //            throw fileFailedToOpen;
 
-        while(!inputFile.eof())
-        {
-            char temp;
-            inputFile.get(temp);
-            inputString += temp;
-        }
-        inputFile.close();
+    //        while(!inputFile.eof())
+    //        {
+    //            char temp;
+    //            inputFile.get(temp);
+    //            inputString += temp;
+    //        }
+    //        inputFile.close();
 
-        std::cout<<"DEBUG inputString: "<<inputString<<std::endl;
+    //        std::cout<<"DEBUG inputString: "<<inputString<<std::endl;
 
-    }
-    catch(ERRORS error)
-    {
-        switch (error)
-        {
+    //    }
+    //    catch(ERRORS error)
+    //    {
+    //        switch (error)
+    //        {
 
-        case fileFailedToOpen:
-            std::cout<<"ERROR File Failed To Open "<<std::endl;
-            break;
+    //        case fileFailedToOpen:
+    //            std::cout<<"ERROR File Failed To Open "<<std::endl;
+    //            break;
 
-        default:
-            std::cout<<"Unknown Error... "<<std::endl;
-            break;
-        }
-    }
+    //        default:
+    //            std::cout<<"Unknown Error... "<<std::endl;
+    //            break;
+    //        }
+    //    }
 
-//===================================================================
+    //===================================================================
 
 
 
@@ -337,3 +376,5 @@ double average(double x, double y)
 //    x = y;
 //    y = temp;
 //}
+
+
